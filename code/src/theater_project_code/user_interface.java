@@ -2,7 +2,7 @@ package theater_project_code;
 
 import java.util.Scanner;
 
-public class GUI {
+public class user_interface {
 	
 	public static void main(String[] args) {
 		System.out.println("*********************************");
