@@ -9,6 +9,10 @@ public class Account {
 	private String type;
 	private float balance;
 	
+	/*
+	 * getters
+	 */
+	
 	public String get_username() {
 		return username;
 	}
@@ -16,6 +20,18 @@ public class Account {
 	public String get_password() {
 		return password;
 	}
+	
+	public String get_type() {
+		return type;
+	}
+	
+	public float get_balance() {
+		return balance;
+	}
+	
+	/*
+	 * setters
+	 */
 	
 	public void set_username(String username) {
 		this.username = username;
@@ -27,14 +43,6 @@ public class Account {
 	
 	public void set_type(String type) {
 		this.type = type;
-	}
-	
-	public String get_type() {
-		return type;
-	}
-	
-	public float get_balance() {
-		return balance;
 	}
 	
 	public void set_balance(float balance) {
