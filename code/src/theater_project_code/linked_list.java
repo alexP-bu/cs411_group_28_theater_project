@@ -7,20 +7,18 @@ public class linked_list {
 	//node construction
 	static class Node{
 		String name;
-		int data;
 		Node next;
 		Node prev;
 		
-		Node(String name, int d){
+		Node(String name){
 			this.name = name;
-			this.data = d;
 			this.next = null;
 			this.prev = null;
 		}
 	}
 	//insert new node using data to end of linked list
-	public static linked_list insert(linked_list list, String name, int data) {
-		Node new_node = new Node(name, data);
+	public linked_list insert(linked_list list, String name) {
+		Node new_node = new Node(name);
 		
 		if(list.head == null) {
 			list.head = new_node;
@@ -35,7 +33,7 @@ public class linked_list {
 		return list;
 	}
 	//insert new node using node to end of linked list
-	public static linked_list insert(linked_list list, Node n) {
+	public linked_list insert(linked_list list, Node n) {
 		if(list.head == null) {
 			list.head = n;
 			n.prev = null;
@@ -50,7 +48,7 @@ public class linked_list {
 		return list;
 	}
 	
-	public static linked_list delete(linked_list list, String name) {
+	public linked_list delete(linked_list list, String name) {
 		Node currentNode = list.head;
 		//find node with matching name
 		while(!currentNode.name.equals(name)) {
@@ -83,14 +81,24 @@ public class linked_list {
 		Node currentNode = list.head;
 		System.out.print("Linked List: [");
 		while(currentNode != null) {
-			System.out.print(currentNode.data + ";");
+			System.out.print(currentNode.name + ";");
 		}
 		System.out.print("]\n");
 	}
 	
+	public boolean contains(linked_list list, String keyword) {
+		Node currentNode = list.head;
+		while(currentNode != null) {
+			if (currentNode.name.equals(keyword)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	//test harness code
 	public static void main(String[] args) {
-		linked_list list = new linked_list();
+		//linked_list list = new linked_list();
 		
 	}
 }
