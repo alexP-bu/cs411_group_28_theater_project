@@ -14,7 +14,7 @@ import java.io.Writer;
 public class account_manager {
 	
 	private HashMap<String,String> login_info = new HashMap<String,String>();
-	private account logged_in = null;
+	private Account logged_in = null;
 	private File usernames = new File("usernames.txt");
 	private File passwords = new File("passwords.txt");
 	
