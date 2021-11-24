@@ -2,7 +2,7 @@ package theater_project_code;
 import java.util.LinkedList;
 
 public class command_manager {
-	private LinkedList<String> valid_commands = new LinkedList();
+	private LinkedList<String> valid_commands = new LinkedList<String>();
 	
 	//default constructor for the command manager has no valid commands
 	public command_manager() {
