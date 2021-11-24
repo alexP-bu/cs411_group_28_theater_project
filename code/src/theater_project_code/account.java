@@ -1,6 +1,6 @@
 package theater_project_code;
 
-public class account {
+public class Account {
 	public class java {
 
 	}
