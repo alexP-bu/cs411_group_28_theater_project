@@ -1,6 +1,7 @@
 package theater_project_code;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.io.File;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
@@ -23,6 +24,13 @@ public class AccountManager {
 	
 	public AccountManager() {
 		this.accountsFile = new File("accounts.ser");
+		if(!accountsFile.exists()) {
+			try {
+				accountsFile.createNewFile();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		this.loggedIn = null;
 		//read accounts from file and import them into accounts list
 		try {
@@ -38,7 +46,7 @@ public class AccountManager {
 	 * return true on successful login, throws exception if an error occurred.
 	 */
 	
-	public boolean login_account(String username, String password) throws IllegalArgumentException {
+	public boolean loginAccount(String username, String password) throws IllegalArgumentException {
 		if(accountList.containsKey(username)) {
 			if(accountList.get(username).get_password().equals(password)) {
 				if(loggedIn == null) {
@@ -46,35 +54,36 @@ public class AccountManager {
 					loggedIn = accountList.get(username);
 					return true;
 				} else {
-					logout_account(username);
+					logoutAccount();
 					loggedIn = accountList.get(username);
 					return true;
 				}
 			}else {
-				throw new IllegalArgumentException("Invalid password entered!");
+				System.out.println("Invalid password entered!");
 			}
 		}else {
-			throw new IllegalArgumentException("Invalid username entered!");
+			System.out.println("Invalid username entered!");
 		}
+		return false;
 	}
 	
 	/*
-	 * logout account using username. returns true on successful logout, false otherwise 
+	 * logout account using user name. returns true on successful logout, false otherwise 
 	 */
 	
-	public boolean logout_account(String username) {
-		if(this.is_loggedIn(username)) {
-			loggedIn = null;
-			return true;
-		}
-		return false;
+	public boolean logoutAccount() {
+		loggedIn = null;
+		return true;
 	}
 	
 	/*
 	 * check if account is logged in. returns true if it is, false if not
 	 */
 	
-	public boolean is_loggedIn(String username) {
+	public boolean isLoggedIn(String username) {
+		if(loggedIn == null) {
+			return false;
+		}
 		if(loggedIn.get_username().equals(username)) {
 			return true;
 		}
@@ -88,20 +97,21 @@ public class AccountManager {
 	 * 
 	 */
 	
-	public boolean create_customer_account(String username, String password) throws IllegalArgumentException {
+	public boolean createCustomerAccount(String username, String password) {
 		if(accountList.containsKey(username)) {
-			throw new IllegalArgumentException("Username already exists, please select a different one!");
+			System.out.println("Username already exists, please enter a different one!");
+			return false;
 		}
 		CustomerAccount account = new CustomerAccount(username, password);
 		//add key to local account list
 		accountList.put(username, account);
 		//clear current account database file and export new one
-		clearFile(accountsFile);
+		clearDatabase();
 		exportAccounts(accountsFile, accountList);
 		//export local account list to update database file
 		exportAccounts(accountsFile, accountList);
 		//login account
-		this.login_account(username, password);
+		this.loginAccount(username, password);
 		return true;
 	}
 	
@@ -112,13 +122,24 @@ public class AccountManager {
 	 * returns true on successful deletion, false otherwise
 	 */
 	
-	public boolean delete_account(String username) throws IllegalArgumentException {
-		if(loggedIn == null) {
-			if(loggedIn.get_type().equals("administrator")) {
+	public boolean deleteAccount(String username) throws IllegalArgumentException {
+		if(loggedIn != null) {
+			if(loggedIn.get_type().equals("administrator") || loggedIn.get_username().equals(username)) {
+				Scanner reader = new Scanner(System.in);
+				System.out.printf("Are you sure you want to delete %s's account?\n", username);
+				System.out.println("Please re-enter account username to confirm: ");
+				if (!reader.nextLine().equals(username)) {
+					System.out.println("Account failed to delete!");
+					reader.close();
+					return false;
+				}
+				reader.close();
 				//delete account from accountList
 				accountList.remove(username);
-				//delete account from account database
-				
+				//export new database file with deleted account
+				exportAccounts(accountsFile, accountList);
+				System.out.printf("%s's account has been successfully deleted.\n", username);
+				return true;
 			} 
 		}
 		return false;
@@ -176,29 +197,61 @@ public class AccountManager {
 	}
 	
 	/*
-	 * method to clear file
+	 * method to database clear file
 	 */
 	
-	private static void clearFile(File file) {
+	private void clearDatabase() {
 		try {
-			new FileOutputStream(file).close();
+			new FileOutputStream(accountsFile).close();
 		}catch (Exception e) {
 			System.out.println("file not found!");
 			e.printStackTrace();
 		}
+		System.out.println("Database file cleared.");
 	}
 	
 	/*
-	 * test harness
+	 * method to clear local account list
 	 */
 	
-	public static void main(String[] args) {
-		AccountManager accountManager = new AccountManager();
-		
-		accountManager.printAccountList();
-		accountManager.create_customer_account("Alex", "testpassword");
-		
-		accountManager.printAccountList();
+	public void clearAccountList() {
+		accountList.clear();
 	}
+	
+	/*
+	 * test harness code
+	 */
+	/*
+	public static void main(String[] args) {
+		//make a new account manager
+		AccountManager accountManager = new AccountManager();
+		//clear its database file
+		accountManager.clearDatabase();
+		accountManager.clearAccountList();
+		//create two customer accounts
+		accountManager.createCustomerAccount("Alex", "testpassword");
+		accountManager.createCustomerAccount("Alex2", "testpassword2");
+		//print account list
+		accountManager.printAccountList();
+		//login an account
+		accountManager.loginAccount("Alex","testpassword");
+		System.out.println("Is Alex logged in?");
+		System.out.println(accountManager.isLoggedIn("Alex"));
+		//logout account
+		accountManager.logoutAccount();
+		System.out.println("Is Alex logged in now?");
+		System.out.println(accountManager.isLoggedIn("Alex"));
+		//test deleting account
+		System.out.println("Test deleting an account:");
+		System.out.println("Account list before:");
+		accountManager.printAccountList();
+		System.out.println("If not logged in, deleted?:");
+		accountManager.deleteAccount("Alex2");
+		accountManager.printAccountList();
+		//login then delete
+		accountManager.loginAccount("Alex2", "testpassword2");
+		accountManager.deleteAccount("Alex2");
+		accountManager.printAccountList();
+	}*/
 }
 	
