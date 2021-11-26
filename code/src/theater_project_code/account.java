@@ -1,13 +1,45 @@
 package theater_project_code;
+import java.io.Serializable;
 
-public class Account {
+public class Account implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6525670258139946755L;
+
 	public class java {
 
 	}
-	private String username;
-	private String password;
-	private String type;
-	private float balance;
+	protected String username;
+	protected String password;
+	protected String type;
+	protected double balance;
+	
+	/*
+	 * constructors
+	 */
+	
+	public Account(String username, String password, String type, double balance) {
+		this.set_username(username);
+		this.set_password(password);
+		this.set_balance(balance);
+		this.set_type(type);
+	}
+	
+	public Account(String username, String password) {
+		this.set_username(username);
+		this.set_password(password);
+		this.set_balance(0.00);
+		this.set_type("default");
+	}
+	
+	public Account() {
+		this.set_username("");
+		this.set_password("");
+		this.set_type("");
+		this.set_balance(0.00);
+	}
 	
 	/*
 	 * getters
@@ -25,7 +57,7 @@ public class Account {
 		return type;
 	}
 	
-	public float get_balance() {
+	public double get_balance() {
 		return balance;
 	}
 	
@@ -45,15 +77,15 @@ public class Account {
 		this.type = type;
 	}
 	
-	public void set_balance(float balance) {
+	public void set_balance(double balance) {
 		this.balance = balance;
 	}
 	
-	public void add_balance(float amount) {
+	public void add_balance(double amount) {
 		this.balance += amount;
 	}
 	
-	public void subtract_balance(float amount) {
+	public void subtract_balance(double amount) {
 		this.balance -= amount;
 	}
 }
