@@ -8,6 +8,32 @@ public class Date {
 	private int minutes;
 	private int seconds;
 	
+	/*
+	 * constructors
+	 */
+	
+	public Date(int month, int day, int year, int hours, int minutes, int seconds) {
+		this.month = month;
+		this.day = day;
+		this.year = year;
+		this.hours = hours;
+		this.minutes = minutes;
+		this.seconds = seconds;
+	}
+	
+	public Date() {
+		this.month = 0;
+		this.day = 0;
+		this.year = 0;
+		this.hours = 0;
+		this.minutes = 0;
+		this.seconds = 0;
+	}
+	
+	/*
+	 * getters and setters
+	 */
+	
 	public int get_month() {
 		return month;
 	}

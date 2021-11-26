@@ -6,6 +6,20 @@ public class Showtime {
 	private Seat[] seats_available;
 	private Seat[] seats_reserved;
 	
+	/*
+	 * constructors
+	 */
+	
+	public Showtime() {
+		this.date = null;
+		this.movie_name = "";
+		this.seats_available = null;
+		this.seats_reserved = null;
+	}
+	
+	/*
+	 * getters and setters
+	 */
 	public Date get_date() {
 		return date;
 	}

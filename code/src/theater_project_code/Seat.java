@@ -4,7 +4,32 @@ public class Seat {
 	private Showtime show;
 	private int row;
 	private char column;
-	private Account reserved_by = null;
+	private Account reservedBy;
+	
+	/*
+	 * constructors
+	 */
+	
+	public Seat(Showtime show, int row, char column) {
+		this.show = show;
+		this.row = row;
+		this.column = column;
+		this.reservedBy = null;
+	}
+	
+	public Seat(Showtime show, int row, char column, Account account) {
+		this.show = show;
+		this.row = row;
+		this.column = column;
+		this.reservedBy = account;
+	}
+	
+	public Seat() {
+		this.show = null;
+		this.row = 0;
+		this.column = 0;
+		this.reservedBy = null;
+	}
 	
 	/*
 	 * getters
@@ -22,12 +47,12 @@ public class Seat {
 		return this.column;
 	}
 	
-	public Account get_reserved_by() {
-		return this.reserved_by;
+	public Account get_reservedBy() {
+		return this.reservedBy;
 	}
 	
 	public boolean is_reserved() {
-		if(this.get_reserved_by() != null) {
+		if(this.get_reservedBy() != null) {
 			return true;
 		}
 		return false;
@@ -50,6 +75,6 @@ public class Seat {
 	}
 	
 	public void reserve_seat(Account account) {
-		this.reserved_by = account;
+		this.reservedBy = account;
 	}
 }

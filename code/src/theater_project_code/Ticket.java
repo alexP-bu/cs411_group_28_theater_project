@@ -4,7 +4,18 @@ public class Ticket {
 	private Showtime show;
 	private Seat seat;
 	private double price;
-	private Date date_purchased = null;
+	private Date datePurchased = null;
+	
+	public Ticket(Showtime show, Seat seat, double price, Date datePurchased) {
+		this.show = show;
+		this.seat = seat;
+		this.price = price;
+		this.datePurchased = datePurchased;
+	}
+	
+	/*
+	 * getters/setters
+	 */
 	
 	public Showtime get_show() {
 		return show;
@@ -24,11 +35,11 @@ public class Ticket {
 	public void set_price(double price) {
 		this.price = price;
 	}
-	public Date get_date_purchased() {
-		return date_purchased;
+	public Date get_datePurchased() {
+		return datePurchased;
 	}
-	public void set_date_purchased(Date date_purchased) {
-		this.date_purchased = date_purchased;
+	public void set_datePurchased(Date datePurchased) {
+		this.datePurchased = datePurchased;
 	}
 	
 	
