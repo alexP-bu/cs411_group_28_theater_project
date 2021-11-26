@@ -13,6 +13,13 @@ public class Ticket {
 		this.datePurchased = datePurchased;
 	}
 	
+	public Ticket() {
+		this.show = null;
+		this.seat = null;
+		price = 0.00;
+		this.datePurchased = null;
+	}
+	
 	/*
 	 * getters/setters
 	 */
