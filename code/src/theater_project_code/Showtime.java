@@ -3,25 +3,22 @@ package theater_project_code;
 public class Showtime {
 	private Date date;
 	private String movieName;
-	private Seat[] seatsAvailable;
-	private Seat[] seatsReserved;
+	private Seat[] seats;
 	
 	/*
 	 * constructors
 	 */
 	
-	public Showtime(Date date, String movieName, Seat[] seatsAvailable, Seat[] seatsReserved) {
+	public Showtime(Date date, String movieName, Seat[] seats, Seat[] seatsReserved) {
 		this.date = date;
 		this.movieName = movieName;
-		this.seatsAvailable = seatsAvailable;
-		this.seatsReserved = seatsReserved;
+		this.seats = seats;
 	}
 	
 	public Showtime() {
 		this.date = null;
 		this.movieName = "";
-		this.seatsAvailable = null;
-		this.seatsReserved = null;
+		this.seats = null;
 	}
 	
 	/*
@@ -39,17 +36,11 @@ public class Showtime {
 	public void set_movie(String movie) {
 		this.movieName = movie;
 	}
-	public Seat[] get_seatsAvailable() {
-		return seatsAvailable;
+	public Seat[] get_seats() {
+		return seats;
 	}
-	public void set_seatsAvailable(Seat[] seatsAvailable) {
-		this.seatsAvailable = seatsAvailable;
-	}
-	public Seat[] get_seatsReserved() {
-		return seatsReserved;
-	}
-	public void set_seatsReserved(Seat[] seatsReserved) {
-		this.seatsReserved = seatsReserved;
+	public void set_seats(Seat[] seats) {
+		this.seats = seats;
 	}
 	
 	@Override
