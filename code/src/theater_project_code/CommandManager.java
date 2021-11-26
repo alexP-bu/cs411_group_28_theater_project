@@ -70,13 +70,9 @@ public class CommandManager {
 					System.out.println("Logging out of current account..");
 				}
 				accountManager.logoutAccount();
-				System.out.println("Please enter your username: ");
-				username = reader.nextLine();
-				System.out.println("Please enter your password: ");
-				password = reader.nextLine();
-				if(accountManager.loginAccount(username, password)) {
-					System.out.printf("Welcome back, %s\n",username);
-					System.out.print(accountManager.getAccount().toString());
+				if(accountManager.loginAccount()) {
+					System.out.printf("Welcome back, %s\n",accountManager.getLoggedInAccount().get_username());
+					System.out.print(accountManager.getLoggedInAccount().toString());
 					break;
 				}else {
 					System.out.println("Login Failed. Invalid username/password.");
@@ -88,7 +84,7 @@ public class CommandManager {
 					break;
 				}
 			}
-			case "new":
+			case "newAccount":
 				System.out.println("Please enter a username for your new account: ");
 				username = reader.nextLine();
 				System.out.println("Please enter a password for your new account: ");
@@ -100,7 +96,7 @@ public class CommandManager {
 					System.out.println("Error creating your account. Please contact an employee.");
 					break;
 				}
-			case "delete":
+			case "deleteAccount":
 				System.out.println("Please enter a username for account to delete: ");
 				username = reader.nextLine();
 				if(accountManager.deleteAccount(username)) {
@@ -124,11 +120,22 @@ public class CommandManager {
 					System.out.println("Account creation failed.");
 					break;
 				}
-			case "clearData":
+			case "clearAccountsData":
 				System.out.println("Clearing account database and local files...");
 				accountManager.clearAccountList();
 				accountManager.clearDatabase();
 				System.out.println("Successfully cleared accounts and data.");
+				break;
+			case "updateAccountDatabase":
+				System.out.println("Updating account database...");
+				try {
+					accountManager.exportAccounts(accountManager.getDatabaseFile(),accountManager.getLocalAccountList());
+				} catch (Exception e) {
+					System.out.println("Error exporting database file");
+					e.printStackTrace();
+					break;
+				}
+				System.out.println("Successfully updated database file.");
 				break;
 		}
 	}

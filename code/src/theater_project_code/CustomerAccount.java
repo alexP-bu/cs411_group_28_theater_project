@@ -24,6 +24,16 @@ public class CustomerAccount extends Account {
 		this.setSeatsReserved(null);
 		this.setCurrentTickets(null);
 	}
+	/*
+	 * default constructor. Used for guest users who buy tickets and reserve seats without account
+	 */
+	public CustomerAccount() {
+		super("Guest","Guest","Guest",0.00);
+		this.setRewardsPoints(0);
+		this.setPurchaseHistory(null);
+		this.setSeatsReserved(null);
+		this.setCurrentTickets(null);
+	}
 
 	/*
 	 * getters/setters
@@ -63,7 +73,7 @@ public class CustomerAccount extends Account {
 	
 	@Override
 	public String toString() {
-		return "Account Data:" + "\n"
+		return this.get_username() + "'s Account Data:" + "\n" +"\n"
 			   + "Current balance: " + this.get_balance() + "\n"
 			   + "Rewards points: " + this.getRewardsPoints() + "\n" 
 			   + "Seats currently reserved: " + this.getSeatsReserved() + "\n"

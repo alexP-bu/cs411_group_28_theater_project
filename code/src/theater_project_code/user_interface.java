@@ -9,7 +9,11 @@ public class user_interface {
 		 * initialize system objects
 		 */
 		
-		String[] commandList = {"login", "logout", "new", "delete", "listAccounts", "newAdmin", "clearData"};
+		String[] commandList = {"login", "logout", "newAccount", "deleteAccount", 
+								"listAccounts", "newAdmin", "clearAccountsData",
+								"updateAccountDatabase","viewAccountData", "exit"
+		
+																		};
 		CommandManager commandManager = new CommandManager(commandList);
 		Scanner readInput = new Scanner(System.in);
 		String command = "";
@@ -44,10 +48,11 @@ public class user_interface {
 	
 	public static void printInstructions() {
 		System.out.println();
-		System.out.println("To login to your account, please type \"login\"");
-		System.out.println("To logout of your account, please type \"logout\"");
+		System.out.println("Commands currently available:");
+		System.out.println("| newAccount | newAdmin | newEmployee | deleteAccount |" + "\n"
+						 + "| login | logout | viewAccountData |" + "\n"
+						 + "| listAccounts | updateAccountDatabase | clearAccountsData |");
 		System.out.println("To view showtimes, please type \"showtimes\"");
-		System.out.println("To create a new account, please type \"new\"");
 		System.out.println("To shut down the system, please type \"exit\"\n");
 	}
 }

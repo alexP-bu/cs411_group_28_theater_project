@@ -1,49 +1,39 @@
 package theater_project_code;
 
 public class Seat {
-	private Showtime show;
-	private int row;
-	private char column;
-	private Account reservedBy;
+	private char row;
+	private int column;
+	private CustomerAccount reservedBy;
 	
 	/*
 	 * constructors
 	 */
 	
-	public Seat(Showtime show, int row, char column) {
-		this.show = show;
-		this.row = row;
-		this.column = column;
-		this.reservedBy = null;
-	}
-	
-	public Seat(Showtime show, int row, char column, Account account) {
-		this.show = show;
+	public Seat(Showtime show, char row, int column, CustomerAccount account) {
 		this.row = row;
 		this.column = column;
 		this.reservedBy = account;
 	}
 	
+	public Seat(char row, int column) {
+		this.row = row;
+		this.column = column;
+		this.reservedBy = null;
+	}
+	
 	public Seat() {
-		this.show = null;
 		this.row = 0;
 		this.column = 0;
 		this.reservedBy = null;
 	}
-	
 	/*
 	 * getters
 	 */
-	
-	public Showtime get_showtime() {
-		return this.show;
-	}
-	
-	public int get_row() {
+	public char get_row() {
 		return this.row;
 	}
 	
-	public char get_column() {
+	public int get_column() {
 		return this.column;
 	}
 	
@@ -57,29 +47,56 @@ public class Seat {
 		}
 		return false;
 	}
-	
 	/*
 	 * setters/mutators
 	 */
-	
-	public void set_showtime(Showtime show) {
-		this.show = show;
-	}
-	
-	public void set_row(int row) {
+	public void set_row(char row) {
 		this.row = row;
 	}
 	
-	public void set_column(char column) {
+	public void set_column(int column) {
 		this.column = column;
 	}
+	/*
+	 * function to reserve seat given with account
+	 */
+	public boolean reserveSeat(CustomerAccount account) {
+		if(this.reservedBy != null) {
+			this.reservedBy = account;
+			System.out.printf("Seat successfully reserved by %s", account.get_username());
+			return true;
+		}else {
+			System.out.println("Seat already reserved. Please select a different seat!");
+			return false;
+		}
+	}
+	/*
+	 * function to reserve seat without account - use default guest account
+	 */
+	public boolean reserveSeat() {
+		if(this.reservedBy == null) {
+			this.reservedBy = new CustomerAccount();
+			System.out.println("Seat successfully reserved.");
+			return true;
+		}else {
+			System.out.println("Seat already reserved. Please select a different seat!");
+			return false;
+		}
+	}
 	
-	public void reserve_seat(Account account) {
-		this.reservedBy = account;
+	/*
+	 * returns location of seat in string format. Ex. G8, E6, ETC
+	 */
+	public String getLocation() {
+		return (String.valueOf(this.row)) + (String.valueOf(this.column));
 	}
 	
 	@Override
 	public String toString() {
-		return (this.show.toString() + ", " + this.row + this.column);
+		if(this.reservedBy != null) {
+			return "[X]";
+		}else {
+			return "[O]";
+		}
 	}
 }

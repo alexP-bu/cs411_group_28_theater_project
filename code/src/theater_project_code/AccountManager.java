@@ -34,16 +34,25 @@ public class AccountManager {
 		//read accounts from file and import them into accounts list
 		try {
 			this.accountList = new HashMap<String,CustomerAccount>(importAccounts(accountsFile));
-		} catch (Exception e) {
-			System.out.println("error importing accounts file");
+		} catch (ClassNotFoundException e) {
+			System.out.println("error importing accounts file.");
 			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Finished importing accounts file. There may have been an error during processing.");
 		}
 	}	
 	/*
 	 * login account using user name and password.
 	 * return true on successful login, throws exception if an error occurred.
 	 */	
-	public boolean loginAccount(String username, String password) throws IllegalArgumentException {
+	public boolean loginAccount() throws IllegalArgumentException {
+		@SuppressWarnings("resource")
+		Scanner reader = new Scanner(System.in);
+		String username,password;
+		System.out.println("Please enter your username: ");
+		username = reader.nextLine();
+		System.out.println("Please enter your password: ");
+		password = reader.nextLine();
 		if(accountList.containsKey(username)) {
 			if(accountList.get(username).get_password().equals(password)) {
 				if(loggedIn == null) {
@@ -93,9 +102,11 @@ public class AccountManager {
 		accountList.put(username, account);
 		//clear current account database file and export new one
 		clearDatabase();
-		exportAccounts(accountsFile, accountList);
-		//login account
-		this.loginAccount(username, password);
+		try {
+			exportAccounts(accountsFile, accountList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 	/*
@@ -105,10 +116,11 @@ public class AccountManager {
 		if(createCustomerAccount(username, password)) {
 			accountList.get(username).set_type("administrator");
 			clearDatabase();
-			exportAccounts(accountsFile, accountList);
-			//login
-			logoutAccount();
-			this.loginAccount(username, password);
+			try {
+				exportAccounts(accountsFile, accountList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			return true;
 		}
 		return false;
@@ -116,7 +128,7 @@ public class AccountManager {
 	/*
 	 * method to return logged in account
 	 */
-	public CustomerAccount getAccount() {
+	public CustomerAccount getLoggedInAccount() {
 		if (loggedIn != null) {
 			return loggedIn;
 		}else {
@@ -143,7 +155,11 @@ public class AccountManager {
 				//delete account from accountList
 				accountList.remove(username);
 				//export new database file with deleted account
-				exportAccounts(accountsFile, accountList);
+				try {
+					exportAccounts(accountsFile, accountList);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				System.out.printf("%s's account has been successfully deleted.\n", username);
 				return true;
 			} 
@@ -151,38 +167,40 @@ public class AccountManager {
 		return false;
 	}
 	public void printAccountList() {
-		System.out.println("Accounts List: ");
-		for(Map.Entry<String, CustomerAccount> entry : accountList.entrySet()) {
-			System.out.println(entry.getKey());
+		if(accountList == null || accountList.isEmpty()) {
+			System.out.println("There are no registered users on this system.");
+		} else {
+			System.out.println("Accounts List: ");
+			for(Map.Entry<String, CustomerAccount> entry : accountList.entrySet()) {
+				System.out.println(entry.getKey());
+			}
+			System.out.println("Accounts list done printing.");
 		}
-		System.out.println("Accounts list done printing.");
 	}
 	/*
 	 * method to read accounts from accounts list using FileInputStreams
 	 */	
-	private static HashMap<String,CustomerAccount> importAccounts(File file) throws IOException, ClassNotFoundException {
+	public static HashMap<String,CustomerAccount> importAccounts(File file) throws IOException, ClassNotFoundException {
 		HashMap<String,CustomerAccount> output = new HashMap<String,CustomerAccount>();
-		try {
-			ObjectInputStream reader = new ObjectInputStream(new FileInputStream(file));
-			while(true) {
-				try {
-					CustomerAccount get = (CustomerAccount) reader.readObject();
-					output.put(get.get_username(),get);
-				}catch (EOFException e) {
-					break;
-				}
-			}
-			reader.close();
-		} catch (Exception e) {
-			System.out.println("Error importing accounts");
-			e.printStackTrace();
+		if (file.length() == 0) {
+			return output;
 		}
+		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(file));
+		while(true) {
+			try {
+				CustomerAccount get = (CustomerAccount) reader.readObject();
+				output.put(get.get_username(),get);
+			}catch (EOFException e) {
+				break;
+			}
+		}
+		reader.close();
 		return output;
 	}
 	/*
 	 * method to export accounts from account list in current session to file
 	 */
-	private static void exportAccounts(File file, HashMap<String,CustomerAccount> accountList) {
+	public void exportAccounts(File file, HashMap<String,CustomerAccount> accountList) throws IOException {
 		try {
 			ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
 			for(Map.Entry<String, CustomerAccount> entry : accountList.entrySet()) {
@@ -192,8 +210,7 @@ public class AccountManager {
 			}
 			writer.close();
 		} catch (Exception e) {
-			System.out.println("Error exporting accounts");
-			e.printStackTrace();
+			throw e;
 		}
 	}
 	/*
@@ -214,12 +231,21 @@ public class AccountManager {
 	public void clearAccountList() {
 		accountList.clear();
 	}
-	
-	
+	/*
+	 * account list getter
+	 */
+	public HashMap<String, CustomerAccount> getLocalAccountList(){
+		return accountList;
+	}
+	/*
+	 * accounts file getter
+	 */
+	public File getDatabaseFile() {
+		return accountsFile;
+	}
 	/*
 	 * test harness code
 	 *
-	
 	public static void main(String[] args) {
 		//make a new account manager
 		AccountManager accountManager = new AccountManager();

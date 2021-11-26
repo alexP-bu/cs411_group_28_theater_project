@@ -1,4 +1,5 @@
 package theater_project_code;
+import java.time.LocalDateTime;
 
 public class Date {
 	private int month;
@@ -20,14 +21,17 @@ public class Date {
 		this.minutes = minutes;
 		this.seconds = seconds;
 	}
-	
+	/*
+	 * default constructor sets date to current date 
+	 */
 	public Date() {
-		this.month = 0;
-		this.day = 0;
-		this.year = 0;
-		this.hours = 0;
-		this.minutes = 0;
-		this.seconds = 0;
+		LocalDateTime date = LocalDateTime.now();
+		this.month = date.getMonthValue();
+		this.day = date.getDayOfMonth();
+		this.year = date.getYear();
+		this.hours = date.getHour();
+		this.minutes = date.getMinute();
+		this.seconds = date.getSecond();
 	}
 	
 	/*
@@ -73,6 +77,6 @@ public class Date {
 	
 	@Override
 	public String toString() {
-		return this.month + "/" + this.day + "/" + this.year + ", " + this.hours + ":" + this.minutes + ":" + this.seconds;
+		return this.hours + ":" + this.minutes + " on " + this.month + "/" + this.day + "/" + this.year;
 	}
 }
