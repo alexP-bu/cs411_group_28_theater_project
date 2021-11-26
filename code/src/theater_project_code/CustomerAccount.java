@@ -1,5 +1,5 @@
 package theater_project_code;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class CustomerAccount extends Account {
 	/**
@@ -9,7 +9,7 @@ public class CustomerAccount extends Account {
 	
 	
 	private int rewardsPoints;
-	private LinkedList<Ticket> purchaseHistory;
+	private ArrayList<Ticket> purchaseHistory;
 	private Seat[] seatsReserved;
 	private Ticket[] currentTickets;
 	
@@ -19,45 +19,57 @@ public class CustomerAccount extends Account {
 	
 	public CustomerAccount(String username, String password) {
 		super(username, password,"customer",0.00);
-		this.rewardsPoints = 0;
-		this.purchaseHistory = null;
-		this.seatsReserved = null;
-		this.currentTickets = null;
+		this.setRewardsPoints(0);
+		this.setPurchaseHistory(null);
+		this.setSeatsReserved(null);
+		this.setCurrentTickets(null);
 	}
-	
+
 	/*
 	 * getters/setters
 	 */
 	
-	public String get_type() {
-		return super.type;
-	}
-	public void set_type(String type) {
-		this.type = type;
-	}
-	public int get_rewardsPoints() {
+	public int getRewardsPoints() {
 		return rewardsPoints;
 	}
-	public void set_rewardsPoints(int rewardsPoints) {
+
+	public void setRewardsPoints(int rewardsPoints) {
 		this.rewardsPoints = rewardsPoints;
 	}
-	public LinkedList<Ticket> get_purchaseHistory() {
+
+	public ArrayList<Ticket> getPurchaseHistory() {
 		return purchaseHistory;
 	}
-	public void set_purchaseHistory(LinkedList<Ticket> purchaseHistory) {
+
+	public void setPurchaseHistory(ArrayList<Ticket> purchaseHistory) {
 		this.purchaseHistory = purchaseHistory;
 	}
-	public Seat[] get_seatsReserved() {
+
+	public Seat[] getSeatsReserved() {
 		return seatsReserved;
 	}
-	public void set_seatsReserved(Seat[] seatsReserved) {
+
+	public void setSeatsReserved(Seat[] seatsReserved) {
 		this.seatsReserved = seatsReserved;
 	}
-	public Ticket[] get_currentTickets() {
+
+	public Ticket[] getCurrentTickets() {
 		return currentTickets;
 	}
-	public void set_currentTickets(Ticket[] currentTickets) {
+
+	public void setCurrentTickets(Ticket[] currentTickets) {
 		this.currentTickets = currentTickets;
 	}
+	
+	@Override
+	public String toString() {
+		return "Account Data:" + "\n"
+			   + "Current balance: " + this.get_balance() + "\n"
+			   + "Rewards points: " + this.getRewardsPoints() + "\n" 
+			   + "Seats currently reserved: " + this.getSeatsReserved() + "\n"
+			   + "Current tickets purchased: " + this.getCurrentTickets() + "\n"
+			   + "Purchase history: " + this.getPurchaseHistory() + "\n";
+	}
+
 }
 
