@@ -51,4 +51,9 @@ public class Showtime {
 	public void set_seatsReserved(Seat[] seatsReserved) {
 		this.seatsReserved = seatsReserved;
 	}
+	
+	@Override
+	public String toString() {
+		return this.movieName + " at " + this.date.toString();
+	}
 }
