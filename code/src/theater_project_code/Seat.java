@@ -77,4 +77,9 @@ public class Seat {
 	public void reserve_seat(Account account) {
 		this.reservedBy = account;
 	}
+	
+	@Override
+	public String toString() {
+		return (this.show.toString() + ", " + this.row + this.column);
+	}
 }
