@@ -2,19 +2,26 @@ package theater_project_code;
 
 public class Showtime {
 	private Date date;
-	private String movie_name;
-	private Seat[] seats_available;
-	private Seat[] seats_reserved;
+	private String movieName;
+	private Seat[] seatsAvailable;
+	private Seat[] seatsReserved;
 	
 	/*
 	 * constructors
 	 */
 	
+	public Showtime(Date date, String movieName, Seat[] seatsAvailable, Seat[] seatsReserved) {
+		this.date = date;
+		this.movieName = movieName;
+		this.seatsAvailable = seatsAvailable;
+		this.seatsReserved = seatsReserved;
+	}
+	
 	public Showtime() {
 		this.date = null;
-		this.movie_name = "";
-		this.seats_available = null;
-		this.seats_reserved = null;
+		this.movieName = "";
+		this.seatsAvailable = null;
+		this.seatsReserved = null;
 	}
 	
 	/*
@@ -27,21 +34,21 @@ public class Showtime {
 		this.date = date;
 	}
 	public String get_movie() {
-		return movie_name;
+		return movieName;
 	}
 	public void set_movie(String movie) {
-		this.movie_name = movie;
+		this.movieName = movie;
 	}
-	public Seat[] get_seats_available() {
-		return seats_available;
+	public Seat[] get_seatsAvailable() {
+		return seatsAvailable;
 	}
-	public void set_seats_available(Seat[] seats_available) {
-		this.seats_available = seats_available;
+	public void set_seatsAvailable(Seat[] seatsAvailable) {
+		this.seatsAvailable = seatsAvailable;
 	}
-	public Seat[] get_seats_reserved() {
-		return seats_reserved;
+	public Seat[] get_seatsReserved() {
+		return seatsReserved;
 	}
-	public void set_seats_reserved(Seat[] seats_reserved) {
-		this.seats_reserved = seats_reserved;
+	public void set_seatsReserved(Seat[] seatsReserved) {
+		this.seatsReserved = seatsReserved;
 	}
 }
