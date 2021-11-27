@@ -5,6 +5,9 @@ public class Showtime {
 	private Date date;
 	private String movieName;
 	private ArrayList<Theater> theaters;
+	private int rating;
+	private int popularity;
+	private String category;
 	
 	/*
 	 * constructors
@@ -25,24 +28,51 @@ public class Showtime {
 	/*
 	 * getters and setters
 	 */
-	public Date get_date() {
+	public Date getDate() {
 		return date;
 	}
-	public void set_date(Date date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
-	public String get_movie() {
+	public String getMovie() {
 		return movieName;
 	}
-	public void set_movie(String movie) {
+	public void setMovie(String movie) {
 		this.movieName = movie;
 	}
-	public ArrayList<Theater> get_theaters() {
+	public ArrayList<Theater> getTheaters() {
 		return theaters;
 	}
-	public void set_theaters(ArrayList<Theater> theaters) {
+	public void setTheaters(ArrayList<Theater> theaters) {
 		this.theaters = theaters;
 	}
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public int getPopularity() {
+		return popularity;
+	}
+
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	/*
+	 * method to add a theater to show time
+	 */
 	public void addTheater(Theater theater) {
 		this.theaters.add(theater);
 	}
