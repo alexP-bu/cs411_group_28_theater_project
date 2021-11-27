@@ -14,16 +14,18 @@ public class Account implements Serializable {
 	protected String username;
 	protected String password;
 	protected String type;
+	protected String email;
 	protected double balance;
 	
 	/*
 	 * constructors
 	 */
 	
-	public Account(String username, String password, String type, double balance) {
+	public Account(String username, String password, String type, String email, double balance) {
 		this.set_username(username);
 		this.set_password(password);
 		this.set_balance(balance);
+		this.set_email(email);
 		this.set_type(type);
 	}
 	
@@ -38,6 +40,7 @@ public class Account implements Serializable {
 		this.set_username("");
 		this.set_password("");
 		this.set_type("");
+		this.set_email("");
 		this.set_balance(0.00);
 	}
 	
@@ -46,19 +49,23 @@ public class Account implements Serializable {
 	 */
 	
 	public String get_username() {
-		return username;
+		return this.username;
 	}
 	
 	public String get_password() {
-		return password;
+		return this.password;
 	}
 	
 	public String get_type() {
-		return type;
+		return this.type;
+	}
+	
+	public String get_email() {
+		return this.email;
 	}
 	
 	public double get_balance() {
-		return balance;
+		return this.balance;
 	}
 	
 	/*
@@ -75,6 +82,10 @@ public class Account implements Serializable {
 	
 	public void set_type(String type) {
 		this.type = type;
+	}
+	
+	public void set_email(String email) {
+		this.email = email;
 	}
 	
 	public void set_balance(double balance) {
