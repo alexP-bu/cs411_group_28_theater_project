@@ -47,6 +47,5 @@ public class ShowtimeManager {
 		showtimes.addShowtime(show2);
 		showtimes.addShowtime(show3);
 		showtimes.addShowtime(show4);
-		showtimes.listShowtimes();
 	}
 }
