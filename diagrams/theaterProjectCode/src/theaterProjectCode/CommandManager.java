@@ -1,4 +1,4 @@
-package theater_project_code;
+package theaterProjectCode;
 import java.util.HashSet;
 
 public class CommandManager {
@@ -23,6 +23,7 @@ public class CommandManager {
 			commandList.add(command);
 		}
 		accountManager = new AccountManager();
+		showtimeManager = new ShowtimeManager();
 	}
 	
 	/*
@@ -84,23 +85,32 @@ public class CommandManager {
 					System.out.println("Error creating your account. Please contact an employee.");
 					break;
 				}
+			case "newAdmin":
+				if(accountManager.createAccount("administrator")) {
+					break;
+				}else {
+					System.out.println("Account creation failed.");
+					break;
+				}
+			case "newEmployee":
+				if(accountManager.createAccount("employee")) {
+					
+				}
 			case "deleteAccount":
 				if(accountManager.deleteAccount()) {
 					break;
 				}else {
 					System.out.println("Error deleting account. Please contact an employee.");
 				}
+			case "viewAccount":
+				if(accountManager.isLoggedIn()) {
+					System.out.println(accountManager.getLoggedInAccount().toString());
+				}else {
+					System.out.println("Please log in to view your account!");
+				}
 			case "listAccounts":
 				accountManager.printAccountList();
 				break;
-			case "newAdmin":
-				if(accountManager.createAccount("administrator")) {
-					System.out.println("Successfully created admin account.");
-					break;
-				}else {
-					System.out.println("Account creation failed.");
-					break;
-				}
 			case "clearAccountsData":
 				System.out.println("Clearing account database and local files...");
 				accountManager.clearAccountList();
@@ -120,6 +130,7 @@ public class CommandManager {
 				break;
 			case "listShowtimes":
 				showtimeManager.listShowtimes();
+				break;
 		}
 	}
 }

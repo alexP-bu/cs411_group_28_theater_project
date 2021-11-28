@@ -1,15 +1,14 @@
-package theater_project_code;
+package theaterProjectCode;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShowtimeManager {
 	private ArrayList<Showtime> showtimes;
-	
 	/*
 	 * constructors
 	 */
 	public ShowtimeManager() {
-		showtimes = new ArrayList<Showtime>();
+		this.showtimes = new ArrayList<Showtime>();
 	}
 	/*
 	 * list show times
@@ -22,6 +21,8 @@ public class ShowtimeManager {
 					System.out.println(showtime.toString());
 				}
 			}
+		} else {
+			System.out.println("There are no showtimes available!");
 		}
 	}
 	/*

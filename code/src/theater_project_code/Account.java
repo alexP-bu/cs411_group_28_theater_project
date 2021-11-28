@@ -1,5 +1,6 @@
 package theater_project_code;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Account implements Serializable {
 
@@ -7,85 +8,115 @@ public class Account implements Serializable {
 	 * serialization ID
 	 */
 	private static final long serialVersionUID = -6525670258139946755L;
-
-	public class java {
-
-	}
-	protected String username;
-	protected String password;
-	protected String type;
-	protected double balance;
+	private String username;
+	private String password;
+	private String type;
+	private double balance;
+	private int rewardsPoints;
+	private ArrayList<Ticket> purchaseHistory;
+	private Seat[] seatsReserved;
+	private Ticket[] currentTickets;
 	
 	/*
 	 * constructors
 	 */
 	
-	public Account(String username, String password, String type, double balance) {
-		this.set_username(username);
-		this.set_password(password);
-		this.set_balance(balance);
-		this.set_type(type);
+	public Account(String username, String password, String type) {
+		this.setUsername(username);
+		this.setPassword(password);
+		this.setBalance(0.00);
+		if(type.equals("administrator")) {
+			this.setType("administrator");
+		}else {
+			this.setType("customer");
+		}
+		this.setRewardsPoints(0);
+		this.setPurchaseHistory(null);
+		this.setSeatsReserved(null);
+		this.setCurrentTickets(null);
 	}
-	
-	public Account(String username, String password) {
-		this.set_username(username);
-		this.set_password(password);
-		this.set_balance(0.00);
-		this.set_type("default");
-	}
-	
 	public Account() {
-		this.set_username("");
-		this.set_password("");
-		this.set_type("");
-		this.set_balance(0.00);
+		this.setUsername("guest");
+		this.setPassword("guest");
+		this.setType("guest");
+		this.setBalance(0.00);
 	}
 	
 	/*
-	 * getters
+	 *	getters/setters 
 	 */
 	
-	public String get_username() {
+	public String getUsername() {
 		return username;
 	}
-	
-	public String get_password() {
-		return password;
-	}
-	
-	public String get_type() {
-		return type;
-	}
-	
-	public double get_balance() {
-		return balance;
-	}
-	
-	/*
-	 * setters
-	 */
-	
-	public void set_username(String username) {
+
+	public void setUsername(String username) {
 		this.username = username;
 	}
-	
-	public void set_password(String password) {
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public void set_type(String type) {
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
 		this.type = type;
 	}
-	
-	public void set_balance(double balance) {
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	
-	public void add_balance(double amount) {
-		this.balance += amount;
+
+	public int getRewardsPoints() {
+		return rewardsPoints;
+	}
+
+	public void setRewardsPoints(int rewardsPoints) {
+		this.rewardsPoints = rewardsPoints;
+	}
+
+	public ArrayList<Ticket> getPurchaseHistory() {
+		return purchaseHistory;
+	}
+
+	public void setPurchaseHistory(ArrayList<Ticket> purchaseHistory) {
+		this.purchaseHistory = purchaseHistory;
+	}
+
+	public Seat[] getSeatsReserved() {
+		return seatsReserved;
+	}
+
+	public void setSeatsReserved(Seat[] seatsReserved) {
+		this.seatsReserved = seatsReserved;
+	}
+
+	public Ticket[] getCurrentTickets() {
+		return currentTickets;
+	}
+
+	public void setCurrentTickets(Ticket[] currentTickets) {
+		this.currentTickets = currentTickets;
 	}
 	
-	public void subtract_balance(double amount) {
-		this.balance -= amount;
+	@Override
+	public String toString() {
+		return this.getUsername() + "'s Account Data:" + "\n" +"\n"
+			   + "Current balance: " + this.getBalance() + "\n"
+			   + "Rewards points: " + this.getRewardsPoints() + "\n" 
+			   + "Seats currently reserved: " + this.getSeatsReserved() + "\n"
+			   + "Current tickets purchased: " + this.getCurrentTickets() + "\n"
+			   + "Purchase history: " + this.getPurchaseHistory() + "\n";
 	}
 }

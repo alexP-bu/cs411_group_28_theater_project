@@ -1,4 +1,4 @@
-package theater_project_code;
+package theaterProjectCode;
 
 public class SeatingChart {
 	private Seat[][] seats;

@@ -1,5 +1,4 @@
-package theater_project_code;
-
+package theaterProjectCode;
 import java.util.Scanner;
 
 public class user_interface {
@@ -30,6 +29,7 @@ public class user_interface {
 		System.out.printf("The command you entered is: %s \n", command);
 		//check for valid user input command
 		if(commandManager.validateCommand(command)) {
+			System.out.println("Valid Command! Running...");
 			commandManager.runCommand(command);
 		}else {
 			System.out.println("Invalid command entered. Please try again.");
@@ -50,11 +50,9 @@ public class user_interface {
 	public static void printInstructions() {
 		System.out.println();
 		System.out.println("Commands currently available:");
-		System.out.println("| newAccount | newAdmin | newEmployee | deleteAccount |" + "\n"
-						 + "| login | logout | viewAccountData |" + "\n"
-						 + "| listAccounts | updateAccountDatabase | clearAccountsData |"
-						 + "| listShowtimes |");
-		System.out.println("To view showtimes, please type \"showtimes\"");
-		System.out.println("To shut down the system, please type \"exit\"\n");
+		System.out.println(" 	____________________________________________________________________________________________"  );
+		System.out.println("	/  newAccount  / newAdmin / newEmployee /   deleteAccount   / login / logout / viewAccount /"  );
+		System.out.println("   / listAccounts /  updateAccountDatabase / clearAccountsData /  listShowtimes /     exit    / "  );		
+		System.out.println("  /______________/________________________/___________________/________________/_____________/  "  );	 
 	}
 }

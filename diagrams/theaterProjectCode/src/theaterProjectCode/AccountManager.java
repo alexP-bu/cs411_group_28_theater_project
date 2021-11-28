@@ -1,4 +1,4 @@
-package theater_project_code;
+package theaterProjectCode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -110,6 +110,7 @@ public class AccountManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("Account successfully created! Please log in.");
 		return true;
 	}
 	/*
@@ -163,7 +164,11 @@ public class AccountManager {
 				}
 				System.out.printf("%s's account has been successfully deleted.\n", username);
 				return true;
-			} 
+			}else {
+				System.out.println("Insufficient permissions to delete account!");
+			}
+		}else {
+			System.out.println("Please log in to delete account!");
 		}
 		return false;
 	}
@@ -253,20 +258,20 @@ public class AccountManager {
 	 */
 	
 	private String getUsernameInput() {
+		@SuppressWarnings("resource")
 		Scanner reader = new Scanner(System.in);
 		System.out.println("Enter username: ");
 		String username; 
 		username = reader.nextLine();
-		reader.close();
 		return username;
 	}
 	
 	private String getPasswordInput() {
+		@SuppressWarnings("resource")
 		Scanner reader = new Scanner(System.in);
 		System.out.println("Enter password: ");
 		String password;
 		password = reader.nextLine();
-		reader.close();
 		return password;
 	}
 	/*
