@@ -53,7 +53,8 @@ public class TheaterManager {
 	 * add theater to local system
 	 */
 	public void addTheater(Theater theater) {
-		this.theaters.put(theater.getTheaterID(), theater);
+		String ID = theater.getTheaterID();
+		this.theaters.put(ID, theater);
 		this.setNUM_THEATERS(getNUM_THEATERS() + 1);
 		System.out.println("Theater successfully added to local system!");
 	}
@@ -80,12 +81,10 @@ public class TheaterManager {
 		}
 		System.out.println("Enter ID of theater to delete:");
 		String ID = reader.nextLine();
-		if(this.is_theater_valid(ID)) {
-			this.theaters.remove(ID);
-			System.out.println("Successfully deleted theater from system.");
-			return true;
-		}
-		return false;
+		ID = get_valid_theater(ID);
+		this.theaters.remove(ID);
+		System.out.println("Successfully deleted theater from system.");
+		return true;
 	}
 	/*
 	 * create custom theater and add it to the showtime manager
@@ -105,17 +104,9 @@ public class TheaterManager {
 			theater.setSeatingChart(new SeatingChart());
 		}else {
 			System.out.println("Enter number of seating chart rows: ");
-			while (!reader.hasNextInt()) {
-				System.out.println("Please enter a number!");
-				reader.next();
-			}
-			int rows = reader.nextInt();
+			int rows = getNumInput();
 			System.out.println("Enter number of seating chart columns: ");
-			while(!reader.hasNextInt()) {
-				System.out.println("Please enter a number!");
-				reader.next();
-			}
-			int cols = reader.nextInt();
+			int cols = getNumInput();
 			theater.setSeatingChart(new SeatingChart(rows,cols));
 			System.out.println("Successfully added seating chart configuration.");
 		}
@@ -126,35 +117,56 @@ public class TheaterManager {
 	 * view theater information 
 	 */
 	public void viewTheater() {
-		if(theaters.isEmpty() || theaters == null) {
+		if(this.theaters.isEmpty() || (this.theaters == null)) {
 			System.out.println("No theaters in local system, please add a theater");
 		}else {
 			System.out.println("Please enter theater ID:");
 			String ID = reader.nextLine();
-			if(this.is_theater_valid(ID)) {
-				System.out.println(theaters.get(ID).toString());
-			}
+			ID = this.get_valid_theater(ID);
+			System.out.println(this.theaters.get(ID).toString());
 		}
 	}
 	/*
-	 * test if theater ID is valid. If it is, return true. Else, return false.
+	 * test if theater ID is valid. Keep going until user returns valid ID.
 	 */
-	public boolean is_theater_valid(String ID) {
+	public String get_valid_theater(String ID) {
 		while(!theaters.containsKey(ID)) {
-			if(ID.equals("exit")) {
-				break;
-			}
-			System.out.println("Please enter a valid theater ID or or type \"exit\". Available Theaters:");
+			System.out.println("Please enter a valid theater ID. Available Theaters:");
 			this.listTheaters();
 			ID = reader.next();
 		}
+		System.out.println("valid theater ID entered...");
+		return ID;
+	}
+	/*
+	 * get valid number input from user
+	 */
+	private int getNumInput() {
+		int input = 0;
+		do {
+			try {
+				input = Integer.parseInt(reader.nextLine());
+				break;
+			} catch (NumberFormatException e) {
+				System.out.println(e);
+			}
+			System.out.println("invalid input entered! try again");
+		}while(true);
 		
-		if(ID.equals("exit")) {
-			System.out.println("invalid theater ID entered...");
-			return false;
-		}else {
-			System.out.println("valid theater ID entered...");
-			return true;
-		}
+		return input;
+	}
+	/*
+	 * test harness
+	 */
+	public static void main(String[] args) {
+		TheaterManager theaterManager = new TheaterManager();
+		Theater theater = new Theater();
+		theater.setTheaterID("3");
+		theater.setSeatingChart(new SeatingChart(3,4));
+		System.out.println(theater.toString());
+		theaterManager.theaters.put(theater.getTheaterID(), theater);
+		System.out.println(theaterManager.getTheaters().toString());
+		System.out.println(theaterManager.theaters.get(theater.getTheaterID()));
+		theaterManager.viewTheater();
 	}
 }

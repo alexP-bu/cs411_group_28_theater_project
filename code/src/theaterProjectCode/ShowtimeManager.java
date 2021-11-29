@@ -25,6 +25,7 @@ public class ShowtimeManager {
 			int i = 1;
 			for(Showtime showtime : showtimes) {
 				System.out.printf("%d: %s",i,showtime.toString());
+				i++;
 			}
 			System.out.println("Finished listing showtimes.");
 		}
@@ -56,27 +57,26 @@ public class ShowtimeManager {
 				theaterManager.listTheaters();
 				System.out.println("Enter theater ID");
 				String ID = reader.nextLine();
-				if(theaterManager.is_theater_valid(ID)) {
-					show.addTheater(theaterManager.getTheaters().get(ID));
-				}
+				ID = theaterManager.get_valid_theater(ID);
+				show.addTheater(theaterManager.getTheaters().get(ID));
 			}
 		}
 		System.out.println("Enter year number when showtime is on: ");
-		int year = reader.nextInt();
+		int year = getNumInput();
 		System.out.println("Enter month number when showtime is on: ");
-		int month = reader.nextInt();
+		int month = getNumInput();
 		System.out.println("Enter date number when showtime is on: ");
-		int day = reader.nextInt();
+		int day = getNumInput();
 		System.out.println("Enter hour number when showtime is on (24 hour clock): ");
-		int hour = reader.nextInt();
+		int hour = getNumInput();
 		System.out.println("Enter minutes when showtimes is on: ");
-		int minute = reader.nextInt();
+		int minute = getNumInput();
 		show.setDate(new Date(month,day,year,hour,minute));
 		System.out.println("Enter rating of showtime, 1 to 5");
-		int rating = reader.nextInt();
+		int rating = getNumInput();
 		show.setRating(rating);
 		System.out.println("Enter popularity of show, from 1 to 100");
-		int popularity = reader.nextInt();
+		int popularity = getNumInput();
 		show.setPopularity(popularity);
 		System.out.println("Enter category of show, in one word (use dashes for Sci-Fi etc)");
 		String category = reader.nextLine();
@@ -89,8 +89,29 @@ public class ShowtimeManager {
 	public void viewShowtime() {
 		this.listShowtimes();
 		System.out.println("Select showtime by index next to it.");
-		int selected = reader.nextInt();
+		int selected = getNumInput();
+		while(selected > showtimes.size()) {
+			System.out.println("Please enter a valid value!");
+			selected = getNumInput();
+		}
 		System.out.println(showtimes.get(selected - 1).toString());
+	}
+	/*
+	 * get valid number input from user
+	 */
+	private int getNumInput() {
+		int input = 0;
+		do {
+			try {
+				input = Integer.parseInt(reader.nextLine());
+				break;
+			} catch (NumberFormatException e) {
+				System.out.println(e);
+			}
+			System.out.println("invalid input entered! try again");
+		}while(true);
+		
+		return input;
 	}
 	/*
 	 * test harness code

@@ -97,20 +97,23 @@ public class CommandManager {
 				}
 			case "newEmployee":
 				if(accountManager.createAccount("employee")) {
-					
+					System.out.println("Finished creating employee account.");
 				}
+				break;
 			case "deleteAccount":
 				if(accountManager.deleteAccount()) {
 					break;
 				}else {
-					System.out.println("Error deleting account. Please contact an employee.");
+					System.out.println("Failed deleting account.");
 				}
+				break;
 			case "viewAccount":
 				if(accountManager.isLoggedIn()) {
 					System.out.println(accountManager.getLoggedInAccount().toString());
 				}else {
 					System.out.println("Please log in to view your account!");
 				}
+				break;
 			case "listAccounts":
 				accountManager.printAccountList();
 				break;
