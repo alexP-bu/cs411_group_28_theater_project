@@ -6,6 +6,7 @@ public class CommandManager {
 	private HashSet<String> commandList;
 	private AccountManager accountManager;
 	private ShowtimeManager showtimeManager;
+	private TheaterManager theaterManager;
 	
 	/*
 	 * constructors
@@ -14,7 +15,8 @@ public class CommandManager {
 	public CommandManager() {
 		commandList = new HashSet<String>();
 		accountManager = new AccountManager();
-		showtimeManager = new ShowtimeManager();
+		theaterManager = new TheaterManager();
+		showtimeManager = new ShowtimeManager(theaterManager);
 	}
 	
 	public CommandManager(String[] commands) {
@@ -23,7 +25,8 @@ public class CommandManager {
 			commandList.add(command);
 		}
 		accountManager = new AccountManager();
-		showtimeManager = new ShowtimeManager();
+		theaterManager = new TheaterManager();
+		showtimeManager = new ShowtimeManager(theaterManager);
 	}
 	
 	/*
@@ -130,20 +133,21 @@ public class CommandManager {
 				showtimeManager.listShowtimes();
 				break;
 			case "newTheater":
-				showtimeManager.createTheater();
+				theaterManager.createTheater();
 				break;
 			case "deleteTheater":
-				if(showtimeManager.deleteTheater()) {
-					
+				if(theaterManager.deleteTheater()) {
+					System.out.println("New theater list:");
+					theaterManager.listTheaters();
 				}else {
 					System.out.println("Failed to delete theater. No theaters in system to delete, or invalid theater entered.");
 				}
 				break;
 			case "listTheaters":
-				showtimeManager.listTheaters();
+				theaterManager.listTheaters();
 				break;
 			case "viewTheater":
-				showtimeManager.viewTheater();
+				theaterManager.viewTheater();
 				break;
 			case "newShowtime":
 				showtimeManager.createShowtime();
