@@ -87,13 +87,7 @@ public class ShowtimeManager {
 	 * view showtime data
 	 */
 	public void viewShowtime() {
-		this.listShowtimes();
-		System.out.println("Select showtime by index next to it.");
-		int selected = getNumInput();
-		while(selected > showtimes.size()) {
-			System.out.println("Please enter a valid value!");
-			selected = getNumInput();
-		}
+		int selected = getValidShowTime(); 
 		System.out.println(showtimes.get(selected - 1).toString());
 	}
 	/*
@@ -111,6 +105,67 @@ public class ShowtimeManager {
 			System.out.println("invalid input entered! try again");
 		}while(true);
 		
+		return input;
+	}
+	/*
+	 * seat reservation code
+	 */
+	public boolean reserveSeat(Account account) {
+		System.out.println("Enter showtime which you would like to reserve a seat at by selecting the index next to it: ");
+		this.listShowtimes();
+		int showtimeSelected = getValidShowTime();
+		System.out.println("Enter row which you want to reserve a seat in (the rows are uppercase characters)");
+		char row = reader.nextLine().charAt(0);
+		System.out.println("Enter column which you want to reserve a seat in (number)");
+		int col = getNumInput();
+		if(this.showtimes.get(showtimeSelected).getTheaters() == null || this.showtimes.get(showtimeSelected).getTheaters().isEmpty()) {
+			System.out.println("No theaters are showing this showtime! Please contact theater staff.");
+			return false;
+		}
+		System.out.println("Available theaters: ");
+		this.showtimes.get(showtimeSelected).listTheaters();
+		System.out.println("Please enter theater ID from the list:");
+		String theaterID = reader.nextLine();
+		if(!(this.showtimes.get(showtimeSelected).isListed(theaterID))){
+			System.out.println("Please enter a valid theater number!");
+			theaterID = reader.nextLine();
+		}
+		if(account.getUsername().equals("guest")) {
+			System.out.println("You are not currently logged in. Reservation will be made as guest. Confirm reservation?");
+			if(getYesNo().equals("yes")) {
+				if(theaterManager.reserveSeat(row, col, theaterID, account)) {
+					System.out.println("Seat successfully reserved!");
+					return true;
+				}else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+	/*
+	 * get valid showtime by ID from user input
+	 */
+	public int getValidShowTime() {
+		this.listShowtimes();
+		System.out.println("Select showtime by index next to it.");
+		int selected = getNumInput();
+		while(selected > showtimes.size()) {
+			System.out.println("Please enter a valid value!");
+			selected = getNumInput();
+		}
+		return selected;
+	}
+	/*
+	 * get yes/no from user input
+	 */
+	public String getYesNo() {
+		System.out.println("yes/no");
+		String input = reader.nextLine();
+		do {
+			System.out.println("Please enter valid response:");
+			input = reader.nextLine();
+			} while(input.equals("yes") || input.equals("no"));
 		return input;
 	}
 	/*

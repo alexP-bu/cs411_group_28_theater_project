@@ -69,7 +69,25 @@ public class Showtime {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
+	/*
+	 * method to check if theater is listed in theater list
+	 */
+	public boolean isListed(String ID) {
+		for(Theater theater : theaters) {
+			if (theater.getTheaterID().equals(ID)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/*
+	 * method to list theaters in show time
+	 */
+	public void listTheaters() {
+		for (Theater theater : theaters) {
+			System.out.println(theater.getTheaterID());
+		}
+	}
 	/*
 	 * method to add a theater to show time
 	 */

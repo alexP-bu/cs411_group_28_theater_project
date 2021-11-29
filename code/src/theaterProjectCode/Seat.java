@@ -29,20 +29,20 @@ public class Seat {
 	/*
 	 * getters
 	 */
-	public char get_row() {
+	public char getRow() {
 		return this.row;
 	}
 	
-	public int get_column() {
+	public int getColumn() {
 		return this.column;
 	}
 	
-	public Account get_reservedBy() {
+	public Account getReservedBy() {
 		return this.reservedBy;
 	}
 	
 	public boolean is_reserved() {
-		if(this.get_reservedBy() != null) {
+		if(this.getReservedBy() != null) {
 			return true;
 		}
 		return false;
@@ -50,11 +50,11 @@ public class Seat {
 	/*
 	 * setters/mutators
 	 */
-	public void set_row(char row) {
+	public void setRow(char row) {
 		this.row = row;
 	}
 	
-	public void set_column(int column) {
+	public void setColumn(int column) {
 		this.column = column;
 	}
 	/*
@@ -71,7 +71,7 @@ public class Seat {
 		}
 	}
 	/*
-	 * function to reserve seat without account - use default guest account
+	 * function to reserve seat without account - use guest account
 	 */
 	public boolean reserveSeat() {
 		if(this.reservedBy == null) {

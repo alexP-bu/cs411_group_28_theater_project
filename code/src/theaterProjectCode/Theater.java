@@ -38,6 +38,17 @@ public class Theater {
 	public void setSeatingChart(SeatingChart seats) {
 		this.seatingChart = seats;
 	}
+	
+	/*
+	 * check if theater is full
+	 */
+	public boolean isFull() {
+		if(seatingChart.hasEmptySeats()) {
+			return false;
+		}
+		return true;
+	}
+	
 	/*
 	 * other methods
 	 */

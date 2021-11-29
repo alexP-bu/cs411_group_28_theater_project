@@ -52,12 +52,13 @@ public class user_interface {
 	public static void printInstructions() {
 		System.out.println();
 		System.out.println("Commands currently available:");
-		String str =  "     ______________________________________________________________________________________________  " + "\n" +
-	                  "    /  newAccount   / newAdmin / newEmployee / clearAccountsData / login / logout /               /  " + "\n" +
-	                  "   / listAccounts  /  updateAccountDatabase /  deleteAccount    /  viewAccount   /     exit      /   " + "\n" +		
-	                  "  / listTheaters  /       newTheater       /   deleteTheater   /  viewTheater   /               /    " + "\n" +
-	                  " / listShowtimes /       newShowtime      /  deleteShowtime   /  viewShowtime  /               /     " + "\n" +
-		              "/_______________/________________________/___________________/________________/_______________/      " + "\n" +
+		String str =  "      ______________________________________________________________________________________________  " + "\n" +
+	                  "     /  newAccount   / newAdmin / newEmployee / clearAccountsData / login / logout /               /  " + "\n" +
+	                  "    / listAccounts  /  updateAccountDatabase /  deleteAccount    /  viewAccount   /     exit      /   " + "\n" +		
+	                  "   / listTheaters  /       newTheater       /   deleteTheater   /  viewTheater   /               /    " + "\n" +
+	                  "  / listShowtimes /       newShowtime      /  deleteShowtime   /  viewShowtime  /               /     " + "\n" +
+		              " /  reserveSeat  /                        /                   /                /               /      " + "\n" +
+		              "/_______________/________________________/___________________/________________/_______________/       " + "\n" +
 		              "                                                                                                      ";
 		System.out.println(str);
 	}

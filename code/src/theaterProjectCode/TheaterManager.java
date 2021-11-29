@@ -139,6 +139,33 @@ public class TheaterManager {
 		return ID;
 	}
 	/*
+	 * reserve seat in theater given valid theater ID, column, and row - returns true on success false on failure.
+	 */
+	public boolean reserveSeat(String ID, char row, int column) {
+		if(this.theaters.get(ID).getSeatingChart().reserveSeat(row, column)) {
+			return true;
+		}
+		return false;
+	}
+	/*
+	 * reserve seat with all inputs with account
+	 */
+	public boolean reserveSeat(char row, int col, String ID, Account account) {
+		if(theaters.get(ID).getSeatingChart().reserveSeat(row, col, account)){
+			return true;
+		}
+		return false;
+	}
+	/*
+	 * reserve seat as guest
+	 */
+	public boolean reserveSeat(char row, int col, String ID) {
+		if(theaters.get(ID).getSeatingChart().reserveSeat(row, col)) {
+			return true;
+		}
+		return false;
+	}
+	/*
 	 * get valid number input from user
 	 */
 	private int getNumInput() {

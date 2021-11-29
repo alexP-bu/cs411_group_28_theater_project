@@ -43,9 +43,14 @@ public class SeatingChart {
 	 * reserve seat in Seating Chart with no account
 	 */
 	public boolean reserveSeat(char row, int column) {
+		if(seats[((int)row)-65][column].is_reserved()) {
+			System.out.println("Seat is already reserved!");
+			return false;
+		}
 		if(seats[((int)row)-65][column].reserveSeat()) {
 			return true;
 		}
+		System.out.println("Error reserving seat in seating chart.");
 		return false;
 	}
 	/*
@@ -54,6 +59,19 @@ public class SeatingChart {
 	public boolean reserveSeat(char row, int column, Account account) {
 		if(seats[((int)row)-65][column].reserveSeat(account)) {
 			return true;
+		}
+		return false;
+	}
+	/*
+	 * check if seating chart is full
+	 */
+	public boolean hasEmptySeats() {
+		for(int i = 0; i < this.seats.length; i++) {
+			for(int j = 0; j < this.seats[0].length; j++) {
+				if(!(this.seats[i][j].is_reserved())) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
