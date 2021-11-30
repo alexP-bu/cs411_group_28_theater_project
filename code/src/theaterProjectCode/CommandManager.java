@@ -158,6 +158,14 @@ public class CommandManager {
 			case "viewShowtime":
 				showtimeManager.viewShowtime();
 				break;
+			case "purchaseTicket":
+				PurchasingManager purchasingManager = new PurchasingManager(accountManager, theaterManager, showtimeManager);
+				if(purchasingManager.purchaseTicket()) {
+					System.out.println("Successfully purchased ticket");
+				}else {
+					System.out.println("Ticket purchase failed.");
+				}
+				break;
 		}
 	}
 }

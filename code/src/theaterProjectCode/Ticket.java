@@ -2,15 +2,17 @@ package theaterProjectCode;
 
 public class Ticket {
 	private Showtime show;
+	private String theater;
 	private Seat seat;
 	private double price;
 	private Date datePurchased = null;
 	
-	public Ticket(Showtime show, Seat seat, double price, Date datePurchased) {
+	public Ticket(Showtime show, Seat seat, double price, Date datePurchased, String theaterID) {
 		this.show = show;
 		this.seat = seat;
 		this.price = price;
 		this.datePurchased = datePurchased;
+		this.theater = theaterID;
 	}
 	
 	public Ticket() {
@@ -47,6 +49,14 @@ public class Ticket {
 	}
 	public void set_datePurchased(Date datePurchased) {
 		this.datePurchased = datePurchased;
+	}
+
+	public String getTheater() {
+		return theater;
+	}
+
+	public void setTheater(String theater) {
+		this.theater = theater;
 	}
 	
 	

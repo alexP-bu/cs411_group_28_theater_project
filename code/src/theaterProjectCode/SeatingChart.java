@@ -80,6 +80,7 @@ public class SeatingChart {
 	public String toString() {
 		String str = "";
 		for(int i = 0; i < this.seats.length; i++) {
+			str += Integer.toString(i) + " ";
 			for(int j = 0; j < this.seats[0].length; j++) {
 				str += seats[i][j].toString();
 			}

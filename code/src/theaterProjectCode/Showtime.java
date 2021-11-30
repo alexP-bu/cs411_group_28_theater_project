@@ -8,15 +8,20 @@ public class Showtime {
 	private int rating;
 	private int popularity;
 	private String category;
+	private double price;
 	
 	/*
 	 * constructors
 	 */
 	
-	public Showtime(Date date, String name, ArrayList<Theater> theaters) {
+	public Showtime(Date date, String name, ArrayList<Theater> theaters, int popularity, String category, double price, int rating) {
 		this.date = date;
 		this.name = name;
 		this.theaters = theaters;
+		this.popularity = popularity;
+		this.category = category;
+		this.price = price;
+		this.rating = rating;
 	}
 	
 	public Showtime() {
@@ -69,6 +74,13 @@ public class Showtime {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
 	/*
 	 * method to check if theater is listed in theater list
 	 */
@@ -89,10 +101,47 @@ public class Showtime {
 		}
 	}
 	/*
+	 * list theaters which have space in them
+	 */
+	public void listUnreservedTheaters() {
+		for(Theater theater: theaters) {
+			if(!theater.isFull()) {
+				System.out.println(theater.getTheaterID());
+			}
+		}
+	}
+	/*
+	 * check if there are any unreserved theaters
+	 */
+	public boolean emptySeatExists() {
+		for(Theater theater: theaters) {
+			if(!theater.isFull()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/*
 	 * method to add a theater to show time
 	 */
 	public void addTheater(Theater theater) {
 		this.theaters.add(theater);
+	}
+	/*
+	 * get theater by ID, returns a null theater if it doesnt exist
+	 */
+	public Theater getTheaterByID(String ID) {
+		if(this.theaters.isEmpty() || (this.theaters == null)) {
+			System.out.println("No theaters in local system, please add a theater");
+			return new Theater();
+		}else {
+			for(Theater theater : theaters) {
+				if(theater.getTheaterID().equals("ID")) {
+					return theater;
+				}
+			}
+		}
+		return new Theater();
 	}
 	
 	@Override
@@ -109,7 +158,6 @@ public class Showtime {
 		str += " at " + this.date.toString() + "\n";
 		return str;
 	}
-	
 	/*
 	 *test harness code 
 	 * 

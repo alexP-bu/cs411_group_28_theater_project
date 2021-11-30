@@ -127,6 +127,18 @@ public class TheaterManager {
 		}
 	}
 	/*
+	 * view theater using ID
+	 */
+	public void viewTheater(String ID) {
+		if(this.theaters.isEmpty() || (this.theaters == null)) {
+			System.out.println("No theaters in local system, please add a theater");
+		}else {
+			System.out.println("Please enter theater ID:");
+			ID = reader.nextLine();
+			ID = this.get_valid_theater(ID);
+			System.out.println(this.theaters.get(ID).toString());
+		}
+	}/*
 	 * test if theater ID is valid. Keep going until user returns valid ID.
 	 */
 	public String get_valid_theater(String ID) {

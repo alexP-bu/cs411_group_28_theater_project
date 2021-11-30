@@ -1,7 +1,10 @@
 package theaterProjectCode;
 import java.time.LocalDateTime;
+import java.util.Scanner;
 
 public class Date {
+	
+	private Scanner reader = new Scanner(System.in);
 	private int month;
 	private int day;
 	private int year;
@@ -64,6 +67,39 @@ public class Date {
 	}
 	public void set_minutes(int minutes) {
 		this.minutes = minutes;
+	}
+	/*
+	 * methods
+	 */
+	public Date createDate() {
+		System.out.println("Enter year number when showtime is on: ");
+		int year = getNumInput();
+		System.out.println("Enter month number when showtime is on: ");
+		int month = getNumInput();
+		System.out.println("Enter date number when showtime is on: ");
+		int day = getNumInput();
+		System.out.println("Enter hour number when showtime is on (24 hour clock): ");
+		int hour = getNumInput();
+		System.out.println("Enter minutes when showtimes is on: ");
+		int minute = getNumInput();
+		return new Date(month, day, year, hour, minute);
+	}
+	/*
+	 * get number from user
+	 */
+	private int getNumInput() {
+		int input = 0;
+		do {
+			try {
+				input = Integer.parseInt(reader.nextLine());
+				break;
+			} catch (NumberFormatException e) {
+				System.out.println(e);
+			}
+			System.out.println("invalid input entered! try again");
+		}while(true);
+		
+		return input;
 	}
 	
 	@Override

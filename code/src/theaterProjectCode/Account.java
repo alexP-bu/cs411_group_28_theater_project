@@ -14,8 +14,6 @@ public class Account implements Serializable {
 	private double balance;
 	private int rewardsPoints;
 	private ArrayList<Ticket> purchaseHistory;
-	private Seat[] seatsReserved;
-	private Ticket[] currentTickets;
 	
 	/*
 	 * constructors
@@ -27,9 +25,7 @@ public class Account implements Serializable {
 		this.setBalance(0.00);
 		this.setType(type);
 		this.setRewardsPoints(0);
-		this.setPurchaseHistory(null);
-		this.setSeatsReserved(null);
-		this.setCurrentTickets(null);
+		this.purchaseHistory = new ArrayList<Ticket>();
 	}
 	public Account() {
 		this.setUsername("guest");
@@ -89,30 +85,26 @@ public class Account implements Serializable {
 	public void setPurchaseHistory(ArrayList<Ticket> purchaseHistory) {
 		this.purchaseHistory = purchaseHistory;
 	}
-
-	public Seat[] getSeatsReserved() {
-		return seatsReserved;
+	/*
+	 * methods
+	 */
+	/*
+	 * add ticket to account
+	 */
+	public void addTicket(Ticket ticket) {
+		if(ticket != null) {
+			purchaseHistory.add(ticket);
+		}else {
+			System.out.println("ERROR: INVALID TICKET");
+		}
 	}
-
-	public void setSeatsReserved(Seat[] seatsReserved) {
-		this.seatsReserved = seatsReserved;
-	}
-
-	public Ticket[] getCurrentTickets() {
-		return currentTickets;
-	}
-
-	public void setCurrentTickets(Ticket[] currentTickets) {
-		this.currentTickets = currentTickets;
-	}
+	
 	
 	@Override
 	public String toString() {
 		return this.getUsername() + "'s Account Data:" + "\n" +"\n"
 			   + "Current balance: " + this.getBalance() + "\n"
 			   + "Rewards points: " + this.getRewardsPoints() + "\n" 
-			   + "Seats currently reserved: " + this.getSeatsReserved() + "\n"
-			   + "Current tickets purchased: " + this.getCurrentTickets() + "\n"
 			   + "Purchase history: " + this.getPurchaseHistory() + "\n";
 	}
 }
