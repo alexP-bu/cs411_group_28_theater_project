@@ -77,12 +77,23 @@ public class PurchasingManager {
 					}
 					System.out.println("Theater is full or invalid. Please enter a different theater from the above list.");
 				}while(true);
-				System.out.println("Select a seat to reserve in this theater");
+				System.out.println("Select a seat to reserve in this theater:");
 				theaterManager.viewTheater(theaterSelected);
-				//Seat seatSelected = 
+				System.out.println("Enter row character:");
+				char row = reader.nextLine().charAt(0);
+				System.out.println("Enter column number:");
+				int col = Integer.parseInt(reader.nextLine());
+				Seat seatSelected = new Seat(row,col);
 				//Generate ticket and add to account
-				//Ticket ticketOut = new Ticket(showtimeSelected,seatSelected,showtimeSelected.getPrice(),new Date(),theaterSelected);
-				//accountSelected.addTicket(ticketOut);
+				Ticket ticket = new Ticket(showtimeSelected,seatSelected,showtimeSelected.getPrice(),datePurchased,theaterSelected);
+				accountManager.getLoggedInAccount().addTicket(ticket);
+				//reserve seat in the theater
+				theaterManager.reserveSeat(row, col, theaterSelected, accountSelected);
+				//update account balance
+				double currentBalance = accountManager.getLoggedInAccount().getBalance();
+				double price = showtimeSelected.getPrice();
+				accountManager.getLoggedInAccount().setBalance(currentBalance - price);
+				return true;
 			}
 		}else {
 			System.out.println("Would you like to log in to an account to purchase your ticket?");
@@ -90,8 +101,47 @@ public class PurchasingManager {
 			if(input.equals("yes")) {
 				System.out.println("Please log in and make your purchase.");
 				return false;
+			}else {
+				System.out.println("Please select a showtime to purchase your ticket for:");
+				if(showtimeManager.isEmpty()) {
+					System.out.println("There are no showtimes available! Exiting...");
+					return false;
+				}
+				showtimeManager.listShowtimes();
+				Showtime showtimeSelected = showtimeManager.getShowtime(showtimeManager.getValidShowtimeID());
+				Date datePurchased = new Date();
+				Account accountSelected = accountManager.getLoggedInAccount();
+				System.out.println("Select a theater by ID to reserve a seat in:");
+				if(showtimeSelected.getTheaters() == null || showtimeSelected.getTheaters().isEmpty() || (!showtimeSelected.emptySeatExists())) {
+					System.out.println("No unreserved seats available! Exiting....");
+					return false;
+				}
+				showtimeSelected.listUnreservedTheaters();
+				String theaterSelected = reader.nextLine();
+				do {
+					if(showtimeSelected.isListed(theaterSelected) && (!showtimeSelected.getTheaterByID(theaterSelected).isFull())) {
+						break;
+					}
+					System.out.println("Theater is full or invalid. Please enter a different theater from the above list.");
+				}while(true);
+				System.out.println("Select a seat to reserve in this theater:");
+				theaterManager.viewTheater(theaterSelected);
+				System.out.println("Enter row character:");
+				char row = reader.nextLine().charAt(0);
+				System.out.println("Enter column number:");
+				int col = Integer.parseInt(reader.nextLine());
+				Seat seatSelected = new Seat(row,col);
+				//Generate ticket and add to account
+				Ticket ticket = new Ticket(showtimeSelected,seatSelected,showtimeSelected.getPrice(),datePurchased,theaterSelected);
+				accountManager.getLoggedInAccount().addTicket(ticket);
+				//reserve seat in the theater
+				theaterManager.reserveSeat(row, col, theaterSelected, accountSelected);
+				//update account balance
+				double currentBalance = accountManager.getLoggedInAccount().getBalance();
+				double price = showtimeSelected.getPrice();
+				accountManager.getLoggedInAccount().setBalance(currentBalance - price);
+				return true;
 			}
 		}
-		return false;
 	}
 }

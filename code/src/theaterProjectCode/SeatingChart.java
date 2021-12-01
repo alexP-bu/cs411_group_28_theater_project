@@ -78,9 +78,13 @@ public class SeatingChart {
 	
 	@Override
 	public String toString() {
-		String str = "";
+		String str = "   ";
+		for(int i = 0; i < this.seats[0].length; i++) {
+			str += Integer.toString(i) + "  ";
+		}
+		str += "\n";
 		for(int i = 0; i < this.seats.length; i++) {
-			str += Integer.toString(i) + " ";
+			str += Character.toString((char) i + 65) + " ";
 			for(int j = 0; j < this.seats[0].length; j++) {
 				str += seats[i][j].toString();
 			}
@@ -88,12 +92,15 @@ public class SeatingChart {
 		}
 		return str;
 	}
-	
+	/*
+	 * test harness code
+	 */
 	public static void main(String[] args) {
 		SeatingChart seats = new SeatingChart();
-		
+		SeatingChart seats2 = new SeatingChart(4,5);
 		System.out.println(seats.toString());
 		seats.reserveSeat('G', 8);
 		System.out.println(seats.toString());
+		System.out.println(seats2.toString());
 	}
 }

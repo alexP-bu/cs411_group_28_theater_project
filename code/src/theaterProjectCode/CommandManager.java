@@ -158,6 +158,9 @@ public class CommandManager {
 			case "viewShowtime":
 				showtimeManager.viewShowtime();
 				break;
+			case "deleteShowtime":
+				showtimeManager.deleteShowtime();
+				break;
 			case "purchaseTicket":
 				PurchasingManager purchasingManager = new PurchasingManager(accountManager, theaterManager, showtimeManager);
 				if(purchasingManager.purchaseTicket()) {

@@ -63,7 +63,6 @@ public class ShowtimeManager {
 		System.out.println("Enter price per ticket");
 		double price = getPrice();
 		System.out.println("Would you like to add which theaters the showtime will be in?");
-		System.out.println("yes/no");
 		String yesno = getYesNo();
 		if(yesno.equals("yes")) {
 			if(theaterManager.getTheaters() == null || theaterManager.getTheaters().isEmpty()) {
@@ -86,10 +85,25 @@ public class ShowtimeManager {
 		showtimes.add(new Showtime(new Date().createDate(),name, showtimeTheaters, popularity, category, price, rating));
 	}
 	/*
-	 * view showtime data
+	 * delete showtime
+	 */
+	public boolean deleteShowtime() {
+		if(showtimes.isEmpty() || showtimes == null) {
+			System.out.println("There are no showtimes to delete!");
+			return false;
+		}
+		System.out.println("Select showtime from following list to delete: ");
+		listShowtimes();
+		int showtimeSelected = this.getValidShowtimeID();
+		showtimes.remove(showtimeSelected);
+		System.out.println("Showtime deleted successfully.");
+		return true;
+	}
+	/*
+	 * view show time data
 	 */
 	public void viewShowtime() {
-		int selected = getValidShowtimeID(); 
+		int selected = this.getValidShowtimeID(); 
 		System.out.println(showtimes.get(selected).toString());
 	}
 	/*
@@ -105,8 +119,20 @@ public class ShowtimeManager {
 				System.out.println(e);
 			}
 			System.out.println("invalid input entered! try again");
-		}while(true);
-		
+		}while(true);	
+		return input;
+	}
+	private double getPriceInput() {
+		double input = 0;
+		do {
+			try {
+				input = Double.parseDouble(reader.nextLine());
+					break;
+				} catch (NumberFormatException e) {
+					System.out.println(e);
+				}
+				System.out.println("invalid input entered! try again FORMAT: 25.35");
+			}while(true);
 		return input;
 	}
 	/*
@@ -114,11 +140,10 @@ public class ShowtimeManager {
 	 */
 	public double getPrice() {
 		System.out.println("Enter dollars amount: ");
-		int dollars = getNumInput();
-		return dollars;
+		return getPriceInput();
 	}
 	/*
-	 * get valid showtime by ID from user input
+	 * get valid show time by ID from user input
 	 */
 	public int getValidShowtimeID() {
 		this.listShowtimes();
@@ -137,9 +162,12 @@ public class ShowtimeManager {
 		System.out.println("yes/no");
 		String input = reader.nextLine();
 		do {
+			if(input.equals("yes") || input.equals("no")) {
+				break;
+			}
 			System.out.println("Please enter valid response:");
 			input = reader.nextLine();
-			} while(input.equals("yes") || input.equals("no"));
+			} while(!(input.equals("yes") || (input.equals("no"))));
 		return input;
 	}
 	/*
