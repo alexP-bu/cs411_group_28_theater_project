@@ -15,7 +15,7 @@ public class user_interface {
 								"updateAccountDatabase","viewAccountData", "exit",
 								"listShowtimes","listTheaters","newTheater","deleteTheater",
 								"viewTheater","newShowtime","viewShowtime","deleteShowtime",
-								"purchaseTicket"
+								"purchaseTicket","clearTheaterData","updateTheaterData"
 		
 																		};
 		CommandManager commandManager = new CommandManager(commandList);
@@ -45,7 +45,7 @@ public class user_interface {
 	
 	public static void printWelcomeMessage() {
 		System.out.println("*********************************");
-		System.out.println("Hello, and welome to the theater!");
+		System.out.println("Hello, and welome to TheaterOS!");
 		System.out.println("*********************************");
 		System.out.println();
 	}
@@ -53,14 +53,17 @@ public class user_interface {
 	public static void printInstructions() {
 		System.out.println();
 		System.out.println("Commands currently available:");
-		String str =  "      ______________________________________________________________________________________________  " + "\n" +
-	                  "     /  newAccount   / newAdmin / newEmployee / clearAccountsData / login / logout /               /  " + "\n" +
-	                  "    / listAccounts  /  updateAccountDatabase /  deleteAccount    /  viewAccount   /     exit      /   " + "\n" +		
-	                  "   / listTheaters  /       newTheater       /   deleteTheater   /  viewTheater   /               /    " + "\n" +
-	                  "  / listShowtimes /       newShowtime      /  deleteShowtime   /  viewShowtime  /               /     " + "\n" +
-		              " /               /      purchaseTicket    /                   /                /               /      " + "\n" +
-		              "/_______________/________________________/___________________/________________/_______________/       " + "\n" +
-		              "                                                                                                      ";
+		String str =  "         __________________________________________________________________   " + "\n" +
+	                  "        / newAccount     / listAccounts   / clearAccountsData  / login  /   " + "\n" +
+	                  "       / newAdmin       / listTheaters   / clearTheatersData  / logout /    " + "\n" +		
+	                  "      / newEmployee    / listShowtimes  / clearShowtimesData / exit   /     " + "\n" +
+	                  "     / newTheater     / viewAccount    / updateAccountsData /        /      " + "\n" +
+		              "    / newShowtime    / viewTheater    / updateTheatersData /        /       " + "\n" +
+		              "   / deleteAccount  / viewShowtime   / updateShowtimeData /        /        " + "\n" +
+	                  "  / deleteTheater  / purchaseTicket /                    /        /         " + "\n" +
+	                  " / deleteShowtime / purchaseTicket /                    /        /         " + "\n" +
+		              "/________________/________________/____________________/________/          " + "\n" +
+		              "                                                                                                         ";
 		System.out.println(str);
 	}
 }

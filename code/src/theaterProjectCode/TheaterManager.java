@@ -1,19 +1,41 @@
 package theaterProjectCode;
 
+import java.io.EOFException;
+import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileInputStream;
 
 public class TheaterManager {
 	private HashMap<String,Theater> theaters;
-	private int NUM_THEATERS;
 	private Scanner reader = new Scanner(System.in);
+	private File theaters_data = new File("theaters.ser");
 	
 	/*
 	 * constructors
 	 */
 	public TheaterManager() {
 		this.setTheaters(new HashMap<String,Theater>());
-		this.setNUM_THEATERS(0);
+		//if database file doesn't exist, create a new one
+		try {
+			if (!theaters_data.exists()) {
+				theaters_data.createNewFile();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//import database file
+		try {
+			this.importTheaters(theaters_data);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	/*
 	 * getters/setters
@@ -24,14 +46,6 @@ public class TheaterManager {
 
 	public void setTheaters(HashMap<String,Theater> theaters) {
 		this.theaters = theaters;
-	}
-
-	public int getNUM_THEATERS() {
-		return NUM_THEATERS;
-	}
-
-	public void setNUM_THEATERS(int nUM_THEATERS) {
-		NUM_THEATERS = nUM_THEATERS;
 	}
 	/*
 	 * misc methods
@@ -55,7 +69,6 @@ public class TheaterManager {
 	public void addTheater(Theater theater) {
 		String ID = theater.getTheaterID();
 		this.theaters.put(ID, theater);
-		this.setNUM_THEATERS(getNUM_THEATERS() + 1);
 		System.out.println("Theater successfully added to local system!");
 	}
 	/*
@@ -65,6 +78,8 @@ public class TheaterManager {
 		if(theaters.containsKey(theater.getTheaterID())) {
 			this.theaters.remove(theater.getTheaterID());
 			System.out.println("Successfully deleted theater from system.");
+			//update database
+			exportTheaters(theaters_data);
 			return true;
 		}else {
 			System.out.println("Error deleting theater, theater not found!");
@@ -84,10 +99,12 @@ public class TheaterManager {
 		ID = get_valid_theater(ID);
 		this.theaters.remove(ID);
 		System.out.println("Successfully deleted theater from system.");
+		//update database
+		exportTheaters(theaters_data);
 		return true;
 	}
 	/*
-	 * create custom theater and add it to the showtime manager
+	 * create custom theater and add it to the show time manager
 	 */
 	public void createTheater() {
 		Theater theater = new Theater();
@@ -111,6 +128,8 @@ public class TheaterManager {
 			System.out.println("Successfully added seating chart configuration.");
 		}
 		this.addTheater(theater);
+		//update database
+		exportTheaters(theaters_data);
 		System.out.println("Successfully added theater configuration to system.");
 	}
 	/*
@@ -193,6 +212,76 @@ public class TheaterManager {
 		}while(true);
 		
 		return input;
+	}
+	/*
+	 * export theater database file
+	 */
+	public void importTheaters(File file) throws IOException,ClassNotFoundException {
+		clearLocalTheaters();
+		InputStream is = null;
+		try {
+			is = new FileInputStream(file);
+			ObjectInputStream objIn = new ObjectInputStream(is);
+			while(true) {
+				try {
+					Theater retreived = (Theater) objIn.readObject();
+					theaters.put(retreived.getTheaterID(),retreived);
+				} catch(EOFException e) {
+					objIn.close();
+					break;
+				}
+			}
+		} finally {
+			if(is != null) {
+				is.close();
+			}
+		}
+		System.out.println("Imported theaters database file.");
+	}
+	/*
+	 * export accounts from account list in current session to file
+	 */
+	public void exportTheaters(File file) {
+		clearTheatersDatabaseFile();
+		try {
+			ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(file));
+			try {
+				for(Map.Entry<String,Theater> entry : theaters.entrySet()) {
+					objOut.writeObject(entry.getValue());
+				}
+			} catch (Exception e) {
+				objOut.close();
+				System.out.println("Error exporting theaters.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Database file updated.");
+	}
+	/*
+	 * clear local theaters
+	 */
+	public void clearLocalTheaters() {
+		if(theaters == null || theaters.isEmpty()) {
+			return;
+		}else {
+			for(Map.Entry<String, Theater> entry : theaters.entrySet()) {
+				theaters.remove(entry.getKey());
+			}
+		}
+		System.out.println("Finished clearing local theater data.");
+	}
+	/*
+	 * clear database file
+	 */
+	public void clearTheatersDatabaseFile() {
+		try {
+			FileOutputStream clear = new FileOutputStream(theaters_data);
+			clear.close();
+			System.out.println("Theaters database file cleared!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	/*
 	 * test harness

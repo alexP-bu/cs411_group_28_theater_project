@@ -7,11 +7,9 @@ public class CommandManager {
 	private AccountManager accountManager;
 	private ShowtimeManager showtimeManager;
 	private TheaterManager theaterManager;
-	
 	/*
 	 * constructors
 	 */
-	
 	public CommandManager() {
 		commandList = new HashSet<String>();
 		accountManager = new AccountManager();
@@ -28,53 +26,48 @@ public class CommandManager {
 		theaterManager = new TheaterManager();
 		showtimeManager = new ShowtimeManager(theaterManager);
 	}
-	
 	/*
 	 * validates if a command is valid for this system
 	 */
-	
 	public boolean validateCommand(String keyword) {
 		if (commandList.contains(keyword)) {
 			return true;
 		}
 		return false;
 	}
-	
 	/*
-	 * print list valid commands 
+	 * print list of valid commands 
 	 */
-	
 	public void listCommands() {
 		System.out.println(commandList.toString());
 	}
-	
 	/*
 	 * delete command from system
 	 */
-	
 	public void deleteCommand(String keyword) {
 		commandList.remove(keyword);
 	}
-	
 	/*
 	 * add a command to system
 	 */
-	
 	public void addCommand(String keyword) {
 		commandList.add(keyword);
 	}
-	
+	/*
+	 * run main run case
+	 */
 	public void runCommand(String command) {
 		switch (command) {
 			case "login": 
 				if(accountManager.isLoggedIn()) {
 					System.out.println("Logging out of current account..");
+					accountManager.logoutAccount();
 				}
-				accountManager.logoutAccount();
 				if(accountManager.loginAccount()) {
+					System.out.printf("Welcome back, %s\n",accountManager.getLoggedInAccount().getUsername());
+					System.out.print(accountManager.getLoggedInAccount().toString());
 					break;
-				}else {
-					System.out.println("Login Failed. Please try again.");
+				}else{
 					break;
 				}
 			case "logout": 
@@ -119,12 +112,12 @@ public class CommandManager {
 				break;
 			case "clearAccountsData":
 				accountManager.clearAccountList();
-				accountManager.clearDatabase();
+				accountManager.clearAccountDatabase();
 				System.out.println("Successfully finished clearing accounts and data.");
 				break;
-			case "updateAccountDatabase":
+			case "updateAccountData":
 				try {
-					accountManager.exportAccounts(accountManager.getDatabaseFile(),accountManager.getLocalAccountList());
+					accountManager.exportAccounts(accountManager.getDatabaseFile());
 				} catch (Exception e) {
 					System.out.println("Error exporting database file");
 					e.printStackTrace();

@@ -1,7 +1,12 @@
 package theaterProjectCode;
 
-public class Theater {
-	
+import java.io.Serializable;
+
+public class Theater implements Serializable{
+	/**
+	 * serializable session ID
+	 */
+	private static final long serialVersionUID = 6287745973157089822L;
 	private String theaterID;
 	private SeatingChart seatingChart;
 	

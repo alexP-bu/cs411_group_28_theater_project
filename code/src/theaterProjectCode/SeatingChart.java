@@ -1,6 +1,12 @@
 package theaterProjectCode;
 
-public class SeatingChart {
+import java.io.Serializable;
+
+public class SeatingChart implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8611123495243223849L;
 	private Seat[][] seats;
 	/*
 	 * constructors
@@ -76,7 +82,6 @@ public class SeatingChart {
 		return false;
 	}
 	
-	@Override
 	public String toString() {
 		String str = "   ";
 		for(int i = 0; i < this.seats[0].length; i++) {
@@ -91,16 +96,5 @@ public class SeatingChart {
 			str += "\n";
 		}
 		return str;
-	}
-	/*
-	 * test harness code
-	 */
-	public static void main(String[] args) {
-		SeatingChart seats = new SeatingChart();
-		SeatingChart seats2 = new SeatingChart(4,5);
-		System.out.println(seats.toString());
-		seats.reserveSeat('G', 8);
-		System.out.println(seats.toString());
-		System.out.println(seats2.toString());
 	}
 }

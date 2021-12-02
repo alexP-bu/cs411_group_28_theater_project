@@ -103,8 +103,12 @@ public class ShowtimeManager {
 	 * view show time data
 	 */
 	public void viewShowtime() {
-		int selected = this.getValidShowtimeID(); 
-		System.out.println(showtimes.get(selected).toString());
+		if(showtimes.isEmpty() || showtimes == null) {
+			System.out.println("There are no showtimes available!");
+		}else {
+			int selected = this.getValidShowtimeID(); 
+			System.out.println(showtimes.get(selected).toString());
+		}
 	}
 	/*
 	 * get valid number input from user
