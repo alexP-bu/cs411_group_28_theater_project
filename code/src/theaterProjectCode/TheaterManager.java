@@ -2,27 +2,27 @@ package theaterProjectCode;
 
 import java.io.EOFException;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class TheaterManager {
-	private HashMap<String,Theater> theaters;
+	private HashMap<String, Theater> theaters;
 	private Scanner reader = new Scanner(System.in);
 	private File theaters_data = new File("theaters.ser");
-	
+
 	/*
 	 * constructors
 	 */
 	public TheaterManager() {
-		this.setTheaters(new HashMap<String,Theater>());
-		//if database file doesn't exist, create a new one
+		this.setTheaters(new HashMap<String, Theater>());
+		// if database file doesn't exist, create a new one
 		try {
 			if (!theaters_data.exists()) {
 				theaters_data.createNewFile();
@@ -30,23 +30,25 @@ public class TheaterManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//import database file
+		// import database file
 		try {
 			this.importTheaters(theaters_data);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	/*
 	 * getters/setters
 	 */
-	public HashMap<String,Theater> getTheaters() {
+	public HashMap<String, Theater> getTheaters() {
 		return theaters;
 	}
 
-	public void setTheaters(HashMap<String,Theater> theaters) {
+	public void setTheaters(HashMap<String, Theater> theaters) {
 		this.theaters = theaters;
 	}
+
 	/*
 	 * misc methods
 	 */
@@ -54,15 +56,16 @@ public class TheaterManager {
 	 * list theaters in local system
 	 */
 	public void listTheaters() {
-		if((theaters == null) || (theaters.isEmpty())) {
+		if ((theaters == null) || (theaters.isEmpty())) {
 			System.out.println("There are no theaters registered in the system.");
-		}else {
+		} else {
 			System.out.println("Listing theaters by ID: ");
-			for(String ID : theaters.keySet()) {
+			for (String ID : theaters.keySet()) {
 				System.out.println(ID);
 			}
 		}
 	}
+
 	/*
 	 * add theater to local system
 	 */
@@ -71,27 +74,28 @@ public class TheaterManager {
 		this.theaters.put(ID, theater);
 		System.out.println("Theater successfully added to local system!");
 	}
+
 	/*
-	 * delete theater from local system 
+	 * delete theater from local system
 	 */
 	public boolean deleteTheater(Theater theater) {
-		if(theaters.containsKey(theater.getTheaterID())) {
+		if (theaters.containsKey(theater.getTheaterID())) {
 			this.theaters.remove(theater.getTheaterID());
 			System.out.println("Successfully deleted theater from system.");
-			//update database
+			// update database
 			exportTheaters(theaters_data);
 			return true;
-		}else {
+		} else {
 			System.out.println("Error deleting theater, theater not found!");
 			return false;
 		}
 	}
+
 	/*
-	 * delete theater by ID
-	 * if successful, returns true. false otherwise
+	 * delete theater by ID if successful, returns true. false otherwise
 	 */
 	public boolean deleteTheater() {
-		if(theaters.isEmpty() || theaters == null) {
+		if (theaters.isEmpty() || theaters == null) {
 			return false;
 		}
 		System.out.println("Enter ID of theater to delete:");
@@ -99,10 +103,11 @@ public class TheaterManager {
 		ID = get_valid_theater(ID);
 		this.theaters.remove(ID);
 		System.out.println("Successfully deleted theater from system.");
-		//update database
+		// update database
 		exportTheaters(theaters_data);
 		return true;
 	}
+
 	/*
 	 * create custom theater and add it to the show time manager
 	 */
@@ -110,58 +115,61 @@ public class TheaterManager {
 		Theater theater = new Theater();
 		System.out.println("Enter theater ID:");
 		String ID = reader.nextLine();
-		while(theaters.containsKey(theater.getTheaterID()) || (ID == null) || (ID.isBlank())) {
+		while (theaters.containsKey(theater.getTheaterID()) || (ID == null) || (ID.isBlank())) {
 			System.out.println("Please enter a different number or ID.");
 			ID = reader.nextLine();
 		}
 		theater.setTheaterID(ID);
 		System.out.printf("Use the default seating chart for theater %s? \n", theater.getTheaterID());
 		System.out.println("yes/no");
-		if(reader.nextLine().equals("yes")) {
+		if (reader.nextLine().equals("yes")) {
 			theater.setSeatingChart(new SeatingChart());
-		}else {
+		} else {
 			System.out.println("Enter number of seating chart rows: ");
 			int rows = getNumInput();
 			System.out.println("Enter number of seating chart columns: ");
 			int cols = getNumInput();
-			theater.setSeatingChart(new SeatingChart(rows,cols));
+			theater.setSeatingChart(new SeatingChart(rows, cols));
 			System.out.println("Successfully added seating chart configuration.");
 		}
 		this.addTheater(theater);
-		//update database
+		// update database
 		exportTheaters(theaters_data);
 		System.out.println("Successfully added theater configuration to system.");
 	}
+
 	/*
-	 * view theater information 
+	 * view theater information
 	 */
 	public void viewTheater() {
-		if(this.theaters.isEmpty() || (this.theaters == null)) {
+		if (this.theaters.isEmpty() || (this.theaters == null)) {
 			System.out.println("No theaters in local system, please add a theater");
-		}else {
+		} else {
 			System.out.println("Please enter theater ID:");
 			String ID = reader.nextLine();
 			ID = this.get_valid_theater(ID);
 			System.out.println(this.theaters.get(ID).toString());
 		}
 	}
+
 	/*
 	 * view theater using ID
 	 */
 	public void viewTheater(String ID) {
-		if(this.theaters.isEmpty() || (this.theaters == null)) {
+		if (this.theaters.isEmpty() || (this.theaters == null)) {
 			System.out.println("No theaters in local system, please add a theater");
-		}else {
+		} else {
 			System.out.println("Please enter theater ID:");
 			ID = reader.nextLine();
 			ID = this.get_valid_theater(ID);
 			System.out.println(this.theaters.get(ID).toString());
 		}
 	}/*
-	 * test if theater ID is valid. Keep going until user returns valid ID.
-	 */
+		 * test if theater ID is valid. Keep going until user returns valid ID.
+		 */
+
 	public String get_valid_theater(String ID) {
-		while(!theaters.containsKey(ID)) {
+		while (!theaters.containsKey(ID)) {
 			System.out.println("Please enter a valid theater ID. Available Theaters:");
 			this.listTheaters();
 			ID = reader.next();
@@ -169,33 +177,38 @@ public class TheaterManager {
 		System.out.println("valid theater ID entered...");
 		return ID;
 	}
+
 	/*
-	 * reserve seat in theater given valid theater ID, column, and row - returns true on success false on failure.
+	 * reserve seat in theater given valid theater ID, column, and row - returns
+	 * true on success false on failure.
 	 */
 	public boolean reserveSeat(String ID, char row, int column) {
-		if(this.theaters.get(ID).getSeatingChart().reserveSeat(row, column)) {
+		if (this.theaters.get(ID).getSeatingChart().reserveSeat(row, column)) {
 			return true;
 		}
 		return false;
 	}
+
 	/*
 	 * reserve seat with all inputs with account
 	 */
 	public boolean reserveSeat(char row, int col, String ID, Account account) {
-		if(theaters.get(ID).getSeatingChart().reserveSeat(row, col, account)){
+		if (theaters.get(ID).getSeatingChart().reserveSeat(row, col, account)) {
 			return true;
 		}
 		return false;
 	}
+
 	/*
 	 * reserve seat as guest
 	 */
 	public boolean reserveSeat(char row, int col, String ID) {
-		if(theaters.get(ID).getSeatingChart().reserveSeat(row, col)) {
+		if (theaters.get(ID).getSeatingChart().reserveSeat(row, col)) {
 			return true;
 		}
 		return false;
 	}
+
 	/*
 	 * get valid number input from user
 	 */
@@ -209,35 +222,37 @@ public class TheaterManager {
 				System.out.println(e);
 			}
 			System.out.println("invalid input entered! try again");
-		}while(true);
-		
+		} while (true);
+
 		return input;
 	}
+
 	/*
 	 * export theater database file
 	 */
-	public void importTheaters(File file) throws IOException,ClassNotFoundException {
+	public void importTheaters(File file) throws IOException, ClassNotFoundException {
 		clearLocalTheaters();
 		InputStream is = null;
 		try {
 			is = new FileInputStream(file);
 			ObjectInputStream objIn = new ObjectInputStream(is);
-			while(true) {
+			while (is.available() > 0) {
 				try {
 					Theater retreived = (Theater) objIn.readObject();
-					theaters.put(retreived.getTheaterID(),retreived);
-				} catch(EOFException e) {
+					theaters.put(retreived.getTheaterID(), retreived);
+				} catch (EOFException e) {
 					objIn.close();
 					break;
 				}
 			}
 		} finally {
-			if(is != null) {
+			if (is != null) {
 				is.close();
 			}
 		}
 		System.out.println("Imported theaters database file.");
 	}
+
 	/*
 	 * export accounts from account list in current session to file
 	 */
@@ -246,7 +261,7 @@ public class TheaterManager {
 		try {
 			ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(file));
 			try {
-				for(Map.Entry<String,Theater> entry : theaters.entrySet()) {
+				for (Map.Entry<String, Theater> entry : theaters.entrySet()) {
 					objOut.writeObject(entry.getValue());
 				}
 			} catch (Exception e) {
@@ -258,19 +273,21 @@ public class TheaterManager {
 		}
 		System.out.println("Database file updated.");
 	}
+
 	/*
 	 * clear local theaters
 	 */
 	public void clearLocalTheaters() {
-		if(theaters == null || theaters.isEmpty()) {
+		if (theaters == null || theaters.isEmpty()) {
 			return;
-		}else {
-			for(Map.Entry<String, Theater> entry : theaters.entrySet()) {
+		} else {
+			for (Map.Entry<String, Theater> entry : theaters.entrySet()) {
 				theaters.remove(entry.getKey());
 			}
 		}
 		System.out.println("Finished clearing local theater data.");
 	}
+
 	/*
 	 * clear database file
 	 */
@@ -283,6 +300,7 @@ public class TheaterManager {
 			e.printStackTrace();
 		}
 	}
+
 	/*
 	 * test harness
 	 */
@@ -290,7 +308,7 @@ public class TheaterManager {
 		TheaterManager theaterManager = new TheaterManager();
 		Theater theater = new Theater();
 		theater.setTheaterID("3");
-		theater.setSeatingChart(new SeatingChart(3,4));
+		theater.setSeatingChart(new SeatingChart(3, 4));
 		System.out.println(theater.toString());
 		theaterManager.theaters.put(theater.getTheaterID(), theater);
 		System.out.println(theaterManager.getTheaters().toString());
