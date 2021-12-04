@@ -142,7 +142,7 @@ public class CommandManager {
 			accountManager.clearAccountDatabase();
 			System.out.println("Successfully finished clearing accounts and data.");
 			break;
-		case "updateAccountData":
+		case "updateAccountsData":
 			try {
 				accountManager.exportAccounts(accountManager.getDatabaseFile());
 			} catch (Exception e) {
@@ -193,6 +193,16 @@ public class CommandManager {
 				System.out.println("Successfully purchased ticket");
 			} else {
 				System.out.println("Ticket purchase failed.");
+			}
+			break;
+		case "clearTheatersData":
+			theaterManager.clearTheatersDatabaseFile();
+			break;
+		case "updateTheatersData":
+			try {
+				theaterManager.importTheaters(theaterManager.getFile());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			break;
 		}

@@ -8,11 +8,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class TheaterManager {
+public class TheaterManager implements Serializable {
+	/**
+	 * id
+	 */
+	private static final long serialVersionUID = -666950663352349624L;
 	private HashMap<String, Theater> theaters;
 	private Scanner reader = new Scanner(System.in);
 	private File theaters_data = new File("theaters.ser");
@@ -231,12 +236,11 @@ public class TheaterManager {
 	 * export theater database file
 	 */
 	public void importTheaters(File file) throws IOException, ClassNotFoundException {
-		clearLocalTheaters();
 		InputStream is = null;
 		try {
 			is = new FileInputStream(file);
 			ObjectInputStream objIn = new ObjectInputStream(is);
-			while (is.available() > 0) {
+			while (true) {
 				try {
 					Theater retreived = (Theater) objIn.readObject();
 					theaters.put(retreived.getTheaterID(), retreived);
@@ -262,7 +266,11 @@ public class TheaterManager {
 			ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(file));
 			try {
 				for (Map.Entry<String, Theater> entry : theaters.entrySet()) {
-					objOut.writeObject(entry.getValue());
+					if(entry == null) {
+						System.out.println("No theaters!");
+					}else {
+						objOut.writeObject(entry.getValue());
+					}
 				}
 			} catch (Exception e) {
 				objOut.close();
@@ -278,12 +286,8 @@ public class TheaterManager {
 	 * clear local theaters
 	 */
 	public void clearLocalTheaters() {
-		if (theaters == null || theaters.isEmpty()) {
-			return;
-		} else {
-			for (Map.Entry<String, Theater> entry : theaters.entrySet()) {
+		for (Map.Entry<String, Theater> entry : theaters.entrySet()) {
 				theaters.remove(entry.getKey());
-			}
 		}
 		System.out.println("Finished clearing local theater data.");
 	}
@@ -301,6 +305,9 @@ public class TheaterManager {
 		}
 	}
 
+	public File getFile() {
+		return theaters_data;
+	}
 	/*
 	 * test harness
 	 */

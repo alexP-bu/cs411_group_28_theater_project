@@ -24,7 +24,7 @@ public class user_interface {
 		String[] commandList = { "login", "logout", "newAccount", "newEmployee", "newAdmin", "newTheater",
 				"newShowtime", "deleteAccount", "deleteTheater", "deleteShowtime", "listAccounts", "listTheaters",
 				"listShowtimes", "viewAccount", "viewTheater", "viewShowtime", "purchaseTicket", "clearAccountsData",
-				"clearTheatersData", "clearShowtimesData", "updateAccountDatabase", "updateTheatersData",
+				"clearTheatersData", "clearShowtimesData", "updateAccountData", "updateTheatersData",
 				"updateShowtimesData", "exit", "main" };
 		CommandManager commandManager = new CommandManager(commandList);
 		String command = "";

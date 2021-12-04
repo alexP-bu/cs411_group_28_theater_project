@@ -69,7 +69,7 @@ public class Seat implements Serializable {
 	public boolean reserveSeat(Account account) {
 		if(this.reservedBy != null) {
 			this.reservedBy = account;
-			System.out.printf("Seat successfully reserved by %s", account.getUsername());
+			//System.out.printf("Seat successfully reserved by %s", account.getUsername());
 			return true;
 		}else {
 			System.out.println("Seat already reserved. Please select a different seat!");
@@ -90,13 +90,7 @@ public class Seat implements Serializable {
 		}
 	}
 	
-	/*
-	 * returns location of seat in string format. Ex. G8, E6, ETC
-	 */
-	public String getLocation() {
-		return (String.valueOf(this.row)) + (String.valueOf(this.column));
-	}
-	
+
 	@Override
 	public String toString() {
 		if(this.reservedBy != null) {

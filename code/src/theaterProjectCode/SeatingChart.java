@@ -2,9 +2,9 @@ package theaterProjectCode;
 
 import java.io.Serializable;
 
-public class SeatingChart implements Serializable{
+public class SeatingChart implements Serializable {
 	/**
-	 * 
+	 * id
 	 */
 	private static final long serialVersionUID = 8611123495243223849L;
 	private Seat[][] seats;
@@ -19,7 +19,7 @@ public class SeatingChart implements Serializable{
 	 */
 	public SeatingChart(int rows, int cols) {
 		this.seats = new Seat[rows][cols];
-		for(int i = 0; i < this.seats.length; i++) {
+		for(int i = 0; i < seats.length; i++) {
 			for(int j = 0; j < this.seats[0].length; j++) {
 				this.seats[i][j] = new Seat(((char)(i+41)),j);
 			}
@@ -36,6 +36,7 @@ public class SeatingChart implements Serializable{
 			}
 		}
 	}
+	
 	/*
 	 * getters/setters
 	 */
@@ -72,9 +73,9 @@ public class SeatingChart implements Serializable{
 	 * check if seating chart is full
 	 */
 	public boolean hasEmptySeats() {
-		for(int i = 0; i < this.seats.length; i++) {
-			for(int j = 0; j < this.seats[0].length; j++) {
-				if(!(this.seats[i][j].is_reserved())) {
+		for(int i = 0; i < seats.length; i++) {
+			for(int j = 0; j < seats[0].length; j++) {
+				if(!(seats[i][j].is_reserved())) {
 					return true;
 				}
 			}
@@ -84,13 +85,13 @@ public class SeatingChart implements Serializable{
 	
 	public String toString() {
 		String str = "   ";
-		for(int i = 0; i < this.seats[0].length; i++) {
+		for(int i = 0; i < seats[0].length; i++) {
 			str += Integer.toString(i) + "  ";
 		}
 		str += "\n";
-		for(int i = 0; i < this.seats.length; i++) {
+		for(int i = 0; i < seats.length; i++) {
 			str += Character.toString((char) i + 65) + " ";
-			for(int j = 0; j < this.seats[0].length; j++) {
+			for(int j = 0; j < seats[0].length; j++) {
 				str += seats[i][j].toString();
 			}
 			str += "\n";
