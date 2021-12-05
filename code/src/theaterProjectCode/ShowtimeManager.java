@@ -3,6 +3,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -28,11 +29,7 @@ public class ShowtimeManager {
 			e.printStackTrace();
 		}
 		// import database file
-		try {
-			this.importShowtimes(showtimes_data);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} 
+		this.importShowtimes(showtimes_data);
 	}
 	/*
 	 * list show times
@@ -206,7 +203,7 @@ public class ShowtimeManager {
 	/*
 	 * database methods for showtimes
 	 */
-	public void importShowtimes(File file) throws ClassNotFoundException {
+	public void importShowtimes(File file) {
 		try {
 			ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(file));
 			while (true) {
@@ -222,9 +219,10 @@ public class ShowtimeManager {
 					break;
 				}
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (IOException e) {
 			System.out.println("Finished reading file.");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 		System.out.println("Imported showtimes database file.");
 	}

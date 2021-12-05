@@ -8,7 +8,6 @@ public class CommandManager {
 	private AccountManager accountManager;
 	private ShowtimeManager showtimeManager;
 	private TheaterManager theaterManager;
-
 	/*
 	 * constructors
 	 */
@@ -48,21 +47,20 @@ public class CommandManager {
 				System.out.print(accountManager.getLoggedInAccount().toString());
 			} else {
 				System.out.println("Invalid account username/password.");
-				returning();
 			}
+			returning();
 			break;
 		case "logout":
 			if (!accountManager.logoutAccount()) {
-				System.out.println("Would you like to login?");
-				user_interface.wait(1);
-				System.out.println("Or would you like to return to main menu?");
-				break;
+				System.out.println("No account logged in!");
 			}
+			returning();
 			break;
 		case "newAccount":
 			if (accountManager.isLoggedIn()) {
 				System.out.printf("Please logout of the current %s account before creating a new one.",
 						accountManager.getLoggedInAccount().getUsername());
+				returning();
 				break;
 			}
 			if (accountManager.createAccount("customer")) {
@@ -71,28 +69,32 @@ public class CommandManager {
 				System.out.println("...");
 			} else {
 				System.out.println("Error creating your account.");
-				returning();
 			}
+			returning();
 			break;
 		case "newAdmin":
-			if (accountManager.createAccount("administrator")) {
-				break;
-			} else {
+			if (!accountManager.createAccount("administrator")) {
 				System.out.println("Account creation failed.");
-				break;
 			}
+			returning();
+			break;
 		case "newEmployee":
-			if (accountManager.createAccount("employee")) {
-				System.out.println("Finished creating employee account.");
+			if(!accountManager.getLoggedInAccount().getType().equals("administrator")) {
+				System.out.println("Invalid permissions! Please contact system administrator!");
+			}else {
+				if (accountManager.createAccount("employee")) {
+					System.out.println("Finished creating employee account.");
+				}else {
+					System.out.println("Account creation failed.");
+				}
 			}
+			returning();
 			break;
 		case "deleteAccount":
-			if (accountManager.deleteAccount()) {
-				break;
-			} else {
+			if (!accountManager.deleteAccount()) {
 				System.out.println("Failed deleting account.");
-				returning();
 			}
+			returning();
 			break;
 		case "viewAccount":
 			if (accountManager.isLoggedIn()) {
@@ -100,30 +102,29 @@ public class CommandManager {
 			} else {
 				System.out.println("Please log in to view your account!");
 			}
+			returning();
 			break;
 		case "listAccounts":
 			accountManager.printAccountList();
+			returning();
 			break;
 		case "clearAccountsData":
 			accountManager.clearAccountList();
 			accountManager.clearAccountDatabase();
 			System.out.println("Successfully finished clearing accounts and data.");
+			returning();
 			break;
 		case "updateAccountsData":
-			try {
-				accountManager.exportAccounts(accountManager.getDatabaseFile());
-			} catch (Exception e) {
-				System.out.println("Error exporting database file");
-				e.printStackTrace();
-				break;
-			}
-			System.out.println("Successfully finished updating database file.");
+			accountManager.exportAccounts(accountManager.getDatabaseFile());
+			returning();
 			break;
 		case "listShowtimes":
 			showtimeManager.listShowtimes();
+			returning();
 			break;
 		case "newTheater":
 			theaterManager.createTheater();
+			returning();
 			break;
 		case "deleteTheater":
 			if (theaterManager.deleteTheater()) {
@@ -133,21 +134,29 @@ public class CommandManager {
 				System.out.println(
 						"Failed to delete theater. No theaters in system to delete, or invalid theater entered.");
 			}
+			returning();
 			break;
 		case "listTheaters":
 			theaterManager.listTheaters();
+			returning();
 			break;
 		case "viewTheater":
 			theaterManager.viewTheater();
+			returning();
 			break;
 		case "newShowtime":
 			showtimeManager.createShowtime();
+			returning();
 			break;
 		case "viewShowtime":
 			showtimeManager.viewShowtime();
+			returning();
 			break;
 		case "deleteShowtime":
-			showtimeManager.deleteShowtime();
+			if(!showtimeManager.deleteShowtime()) {
+				System.out.println("Error deleting showtime!");
+			}
+			returning();
 			break;
 		case "main":
 			user_interface.printInstructions();
@@ -161,26 +170,23 @@ public class CommandManager {
 			} else {
 				System.out.println("Ticket purchase failed.");
 			}
+			returning();
 			break;
 		case "clearTheatersData":
 			theaterManager.clearTheatersDatabaseFile();
+			returning();
 			break;
 		case "updateTheatersData":
-			try {
-				theaterManager.importTheaters(theaterManager.getFile());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			theaterManager.importTheaters(theaterManager.getFile());
+			returning();
 			break;
 		case "clearShowtimesData":
 			showtimeManager.clearShowtimesDatabaseFile();
+			returning();
 			break;
 		case "updateShowtimesData":
-			try {
 			showtimeManager.importShowtimes(showtimeManager.getFile());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			returning();
 			break;
 		}
 	}

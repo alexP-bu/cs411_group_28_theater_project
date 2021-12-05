@@ -234,7 +234,7 @@ public class TheaterManager implements Serializable {
 	/*
 	 * export theater database file
 	 */
-	public void importTheaters(File file) throws ClassNotFoundException {
+	public void importTheaters(File file) {
 		try {
 			ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(file));
 			while (true) {
@@ -248,6 +248,8 @@ public class TheaterManager implements Serializable {
 			}
 		} catch (IOException e) {
 			System.out.println("Finished reading file.");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 		System.out.println("Imported theaters database file.");
 	}
