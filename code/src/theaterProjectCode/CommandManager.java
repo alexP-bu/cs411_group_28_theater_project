@@ -75,6 +75,9 @@ public class CommandManager {
 		case "newAdmin":
 			if (!accountManager.createAccount("administrator")) {
 				System.out.println("Account creation failed.");
+			}else {
+				System.out.println("ADMIN ACCOUNT CREATED");
+				System.out.printf("ACCESS GRANTED TO %s", accountManager.getLoggedInAccount().getUsername());
 			}
 			returning();
 			break;
@@ -85,6 +88,7 @@ public class CommandManager {
 				}else {
 					if (accountManager.createAccount("employee")) {
 						System.out.println("Finished creating employee account.");
+						System.out.printf("Welcome to the Team: %s", accountManager.getLoggedInAccount().getUsername());
 					}else {
 						System.out.println("Account creation failed.");
 					}
@@ -207,6 +211,14 @@ public class CommandManager {
 				System.out.println("Ticket purchase failed.");
 			}
 			returning();
+			break;
+		case "addBalance":
+			if (accountManager.addBalance()) {
+				System.out.println("Successfully added to balance!");
+				System.out.printf("Balance is now: $%s\n", accountManager.getLoggedInAccount().getBalance());
+			} else {
+				System.out.println("Failed to add to Balance");
+			}
 			break;
 		case "clearTheatersData":
 			theaterManager.clearTheatersDatabaseFile();
