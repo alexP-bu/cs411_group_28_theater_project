@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
@@ -183,20 +184,23 @@ public class AccountManager {
 	/*
 	 * read accounts from accounts database
 	 */
-	public void importAccounts(File file) throws Exception {
+	public void importAccounts(File file) {
 		clearAccountList();
-		FileInputStream read = new FileInputStream(file);
-		ObjectInputStream objIn = new ObjectInputStream(read);
-		while (read.available() > 0) {
-			try {
-				Account retreived = (Account) objIn.readObject();
-				accountList.put(retreived.getUsername(), retreived);
-			} catch (EOFException e) {
-				objIn.close();
-				break;
-			} catch (Exception e) {
-				e.printStackTrace();
+		try {
+			ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(file));
+			while (true) {
+				try {
+					Account retreived = (Account) objIn.readObject();
+					accountList.put(retreived.getUsername(), retreived);
+				} catch (EOFException e) {
+					objIn.close();
+					break;
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
 			}
+		} catch (IOException e) {
+			System.out.println("Finished reading file.");
 		}
 		System.out.println("Imported accounts database file.");
 	}

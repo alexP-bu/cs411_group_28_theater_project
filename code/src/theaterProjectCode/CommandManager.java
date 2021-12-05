@@ -205,6 +205,16 @@ public class CommandManager {
 				e.printStackTrace();
 			}
 			break;
+		case "clearShowtimesData":
+			showtimeManager.clearShowtimesDatabaseFile();
+			break;
+		case "updateShowtimesData":
+			try {
+			showtimeManager.importShowtimes(showtimeManager.getFile());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
 		}
 	}
 }

@@ -1,4 +1,10 @@
 package theaterProjectCode;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,12 +13,26 @@ public class ShowtimeManager {
 	Scanner reader = new Scanner(System.in);
 	private ArrayList<Showtime> showtimes;
 	private TheaterManager theaterManager;
+	private File showtimes_data = new File("showtimes.ser");
 	/*
 	 * constructors
 	 */
 	public ShowtimeManager(TheaterManager theaterManager) {
 		this.showtimes = new ArrayList<Showtime>();
 		this.theaterManager = theaterManager;
+		try {
+			if (!showtimes_data.exists()) {
+				showtimes_data.createNewFile();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// import database file
+		try {
+			this.importShowtimes(showtimes_data);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} 
 	}
 	/*
 	 * list show times
@@ -182,6 +202,79 @@ public class ShowtimeManager {
 			return true;
 		}
 		return false;
+	}
+	/*
+	 * database methods for showtimes
+	 */
+	public void importShowtimes(File file) throws ClassNotFoundException {
+		try {
+			ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(file));
+			while (true) {
+				try {
+					Showtime retreived = (Showtime) objIn.readObject();
+					if(retreived != null) {
+						showtimes.add(retreived);
+					}else {
+						break;
+					}
+				} catch (EOFException e) {
+					objIn.close();
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Finished reading file.");
+		}
+		System.out.println("Imported theaters database file.");
+	}
+
+	/*
+	 * export accounts from account list in current session to file
+	 */
+	public void exportShowtimes(File file) {
+		clearShowtimesDatabaseFile();
+		try {
+			ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(file));
+			try {
+				for (Showtime showtime : showtimes) {
+					objOut.writeObject(showtime);
+				}
+			} catch (Exception e) {
+				objOut.close();
+				System.out.println("Error exporting showtimes.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Database file updated.");
+	}
+
+	/*
+	 * clear local theaters
+	 */
+	public void clearLocalShowtimes() {
+		for (Showtime showtime : showtimes) {
+				showtimes.remove(showtime);
+		}
+		System.out.println("Finished clearing local showtimes data.");
+	}
+
+	/*
+	 * clear database file
+	 */
+	public void clearShowtimesDatabaseFile() {
+		try {
+			FileOutputStream clear = new FileOutputStream(showtimes_data);
+			clear.close();
+			System.out.println("Showtimes database file cleared!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public File getFile() {
+		return showtimes_data;
 	}
 	/*
 	 * test harness code

@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -235,11 +234,9 @@ public class TheaterManager implements Serializable {
 	/*
 	 * export theater database file
 	 */
-	public void importTheaters(File file) throws IOException, ClassNotFoundException {
-		InputStream is = null;
+	public void importTheaters(File file) throws ClassNotFoundException {
 		try {
-			is = new FileInputStream(file);
-			ObjectInputStream objIn = new ObjectInputStream(is);
+			ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(file));
 			while (true) {
 				try {
 					Theater retreived = (Theater) objIn.readObject();
@@ -249,10 +246,8 @@ public class TheaterManager implements Serializable {
 					break;
 				}
 			}
-		} finally {
-			if (is != null) {
-				is.close();
-			}
+		} catch (IOException e) {
+			System.out.println("Finished reading file.");
 		}
 		System.out.println("Imported theaters database file.");
 	}
