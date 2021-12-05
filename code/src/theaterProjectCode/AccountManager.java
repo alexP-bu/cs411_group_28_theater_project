@@ -16,6 +16,7 @@ public class AccountManager {
 	private HashMap<String, Account> accountList;
 	private Account loggedIn;
 	private File accountsFile;
+	protected String access = "nedlam!42";
 	private static final Scanner reader = new Scanner(System.in);
 
 	/*
@@ -70,6 +71,10 @@ public class AccountManager {
 		return false;
 	}
 
+	public void login(String username) {
+		loggedIn = accountList.get(username);
+	}
+
 	/*
 	 * logout any account. returns true on successful logout
 	 */
@@ -102,23 +107,62 @@ public class AccountManager {
 			System.out.println("Username already exists, please try again!");
 			return false;
 		}
-		Account account = new Account(username, password, type);
+		if (type.equalsIgnoreCase("administrator") || type.equalsIgnoreCase("employee")) {
+			System.out.println("Enter ACCESS CODE: ");
+			String accessKey = this.getUserInputText();
+			if (!accessKey.equals(access)) {
+				System.out.println("ERROR! INCORRECT ACCESSKEY...");
+				return false;
+			}
+		}
+
+		System.out.println("Please enter your 8-digit credit card number: ");
+		int credit = getCredit();
+		String creditS = String.valueOf(credit);
+		int creditH = creditS.hashCode();
+
+		System.out.println("Please enter your 3-digit security key: ");
+		int key = getKey();
+		String keyS = String.valueOf(key);
+		int keyH = keyS.hashCode();
+
+		Account account = new Account(username, password, type, creditH, keyH);
 		// add key to local account list
 		accountList.put(username, account);
 		// clear current account database file and export new one
 		exportAccounts(accountsFile);
+		if (type.equalsIgnoreCase("administrator") || type.equalsIgnoreCase("employee")) {
+			login(username);
+		}
 		return true;
 	}
 
-	/*
-	 * method to create administrator account
-	 */
-	public boolean createAdminAccount() {
-		if (createAccount("administrator")) {
-			exportAccounts(accountsFile);
-			return true;
+	public boolean addBalance() {
+		if (loggedIn != null) {
+			System.out.println("Please enter your Credit Card Details: ");
+			int credit = getCredit();
+			System.out.println("Please enter your Security Key Details: ");
+			int key = getKey();
+
+			String creditS = String.valueOf(credit);
+			int creditH = creditS.hashCode();
+
+			String keyS = String.valueOf(key);
+			int keyH = keyS.hashCode();
+
+			if (creditH == loggedIn.getCredit() && keyH == loggedIn.getKey()) {
+				System.out.println("How much would you like to add to your balance?");
+				double amount = getAmount();
+				double cur = loggedIn.getBalance();
+				loggedIn.setBalance(cur + amount);
+				exportAccounts(accountsFile);
+				return true;
+			}
+			return false;
+		} else {
+			System.out.println("Please log-in before making a purchase");
+			return false;
 		}
-		return false;
 	}
 
 	/*
@@ -197,7 +241,7 @@ public class AccountManager {
 					break;
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("Finished reading file.");
@@ -286,6 +330,57 @@ public class AccountManager {
 		System.out.println("Enter password: ");
 		return getUserInputText();
 	}
+
+	private double getAmount() {
+		double input = 0.0;
+		do {
+			try {
+				input = Double.parseDouble(reader.nextLine());
+				break;
+			} catch (NumberFormatException e) {
+				System.out.println(e);
+			}
+			System.out.println("invalid input entered! try again");
+		} while (true);
+		return input;
+	}
+
+	private int getCredit() {
+		int input = 0;
+		String temp = null;
+		do {
+			try {
+				input = Integer.parseInt(reader.nextLine());
+				temp = String.valueOf(input);
+				if (temp != null && temp.toCharArray().length == 8) {
+					break;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println(e);
+			}
+			System.out.println("invalid input entered! try again");
+		} while (true);
+		return input;
+	}
+
+	private int getKey() {
+		int input = 0;
+		String temp = null;
+		do {
+			try {
+				input = Integer.parseInt(reader.nextLine());
+				temp = String.valueOf(input);
+				if (temp != null && temp.toCharArray().length == 3) {
+					break;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println(e);
+			}
+			System.out.println("invalid input entered! try again");
+		} while (true);
+		return input;
+	}
+
 	/*
 	 * test harness code
 	 *
