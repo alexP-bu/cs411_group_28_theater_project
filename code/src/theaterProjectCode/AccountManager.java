@@ -115,7 +115,18 @@ public class AccountManager {
 				return false;
 			}
 		}
-		Account account = new Account(username, password, type);
+
+		System.out.println("Please enter your 8-digit credit card number: ");
+		int credit = getCredit();
+		String creditS = String.valueOf(credit);
+		int creditH = creditS.hashCode();
+
+		System.out.println("Please enter your 3-digit security key: ");
+		int key = getKey();
+		String keyS = String.valueOf(key);
+		int keyH = keyS.hashCode();
+
+		Account account = new Account(username, password, type, creditH, keyH);
 		// add key to local account list
 		accountList.put(username, account);
 		// clear current account database file and export new one
@@ -124,6 +135,34 @@ public class AccountManager {
 			login(username);
 		}
 		return true;
+	}
+
+	public boolean addBalance() {
+		if (loggedIn != null) {
+			System.out.println("Please enter your Credit Card Details: ");
+			int credit = getCredit();
+			System.out.println("Please enter your Security Key Details: ");
+			int key = getKey();
+
+			String creditS = String.valueOf(credit);
+			int creditH = creditS.hashCode();
+
+			String keyS = String.valueOf(key);
+			int keyH = keyS.hashCode();
+
+			if (creditH == loggedIn.getCredit() && keyH == loggedIn.getKey()) {
+				System.out.println("How much would you like to add to your balance?");
+				double amount = getAmount();
+				double cur = loggedIn.getBalance();
+				loggedIn.setBalance(cur + amount);
+				exportAccounts(accountsFile);
+				return true;
+			}
+			return false;
+		} else {
+			System.out.println("Please log-in before making a purchase");
+			return false;
+		}
 	}
 
 	/*
@@ -291,6 +330,57 @@ public class AccountManager {
 		System.out.println("Enter password: ");
 		return getUserInputText();
 	}
+
+	private double getAmount() {
+		double input = 0.0;
+		do {
+			try {
+				input = Double.parseDouble(reader.nextLine());
+				break;
+			} catch (NumberFormatException e) {
+				System.out.println(e);
+			}
+			System.out.println("invalid input entered! try again");
+		} while (true);
+		return input;
+	}
+
+	private int getCredit() {
+		int input = 0;
+		String temp = null;
+		do {
+			try {
+				input = Integer.parseInt(reader.nextLine());
+				temp = String.valueOf(input);
+				if (temp != null && temp.toCharArray().length == 8) {
+					break;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println(e);
+			}
+			System.out.println("invalid input entered! try again");
+		} while (true);
+		return input;
+	}
+
+	private int getKey() {
+		int input = 0;
+		String temp = null;
+		do {
+			try {
+				input = Integer.parseInt(reader.nextLine());
+				temp = String.valueOf(input);
+				if (temp != null && temp.toCharArray().length == 3) {
+					break;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println(e);
+			}
+			System.out.println("invalid input entered! try again");
+		} while (true);
+		return input;
+	}
+
 	/*
 	 * test harness code
 	 *

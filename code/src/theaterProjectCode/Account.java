@@ -1,4 +1,5 @@
 package theaterProjectCode;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -10,34 +11,39 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = -6525670258139946755L;
 	private String username;
 	private String password;
+	protected int credit;
+	protected int key;
 	private String type;
 	private double balance;
 	private int rewardsPoints;
 	private ArrayList<Ticket> purchaseHistory;
-	
+
 	/*
 	 * constructors
 	 */
-	
-	public Account(String username, String password, String type) {
+
+	public Account(String username, String password, String type, int credit, int key) {
 		this.setUsername(username);
 		this.setPassword(password);
 		this.setBalance(0.00);
 		this.setType(type);
 		this.setRewardsPoints(0);
 		this.purchaseHistory = new ArrayList<Ticket>();
+		this.setCredit(credit);
+		this.setKey(key);
 	}
+
 	public Account() {
 		this.setUsername("guest");
 		this.setPassword("guest");
 		this.setType("guest");
 		this.setBalance(0.00);
 	}
-	
+
 	/*
-	 *	getters/setters 
+	 * getters/setters
 	 */
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -70,6 +76,22 @@ public class Account implements Serializable {
 		this.balance = balance;
 	}
 
+	public int getCredit() {
+		return this.credit;
+	}
+
+	public void setCredit(int credit) {
+		this.credit = credit;
+	}
+
+	public int getKey() {
+		return this.key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
+	}
+
 	public int getRewardsPoints() {
 		return rewardsPoints;
 	}
@@ -85,6 +107,7 @@ public class Account implements Serializable {
 	public void setPurchaseHistory(ArrayList<Ticket> purchaseHistory) {
 		this.purchaseHistory = purchaseHistory;
 	}
+
 	/*
 	 * methods
 	 */
@@ -92,19 +115,17 @@ public class Account implements Serializable {
 	 * add ticket to account
 	 */
 	public void addTicket(Ticket ticket) {
-		if(ticket != null) {
+		if (ticket != null) {
 			purchaseHistory.add(ticket);
-		}else {
+		} else {
 			System.out.println("ERROR: INVALID TICKET");
 		}
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		return this.getUsername() + "'s Account Data:" + "\n" +"\n"
-			   + "Current balance: " + this.getBalance() + "\n"
-			   + "Rewards points: " + this.getRewardsPoints() + "\n" 
-			   + "Purchase history: " + this.getPurchaseHistory() + "\n";
+		return this.getUsername() + "'s Account Data:" + "\n" + "\n" + "Current balance: " + this.getBalance() + "\n"
+				+ "Rewards points: " + this.getRewardsPoints() + "\n" + "Purchase history: "
+				+ this.getPurchaseHistory().toString() + "\n";
 	}
 }

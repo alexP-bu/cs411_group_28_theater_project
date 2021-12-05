@@ -202,6 +202,14 @@ public class CommandManager {
 				System.out.println("Ticket purchase failed.");
 			}
 			break;
+		case "addBalance":
+			if (accountManager.addBalance()) {
+				System.out.println("Successfully added to balance!");
+				System.out.printf("Balance is now: $%s\n", accountManager.getLoggedInAccount().getBalance());
+			} else {
+				System.out.println("Failed to add to Balance");
+			}
+			break;
 		case "clearTheatersData":
 			theaterManager.clearTheatersDatabaseFile();
 			break;

@@ -23,9 +23,9 @@ public class user_interface {
 
 		String[] commandList = { "login", "logout", "newAccount", "newEmployee", "newAdmin", "newTheater",
 				"newShowtime", "deleteAccount", "deleteTheater", "deleteShowtime", "listAccounts", "listTheaters",
-				"listShowtimes", "viewAccount", "viewTheater", "viewShowtime", "purchaseTicket", "clearAccountsData",
-				"clearTheatersData", "clearShowtimesData", "updateAccountData", "updateTheatersData",
-				"updateShowtimesData", "exit", "main" };
+				"listShowtimes", "viewAccount", "viewTheater", "viewShowtime", "purchaseTicket", "addBalance",
+				"clearAccountsData", "clearTheatersData", "clearShowtimesData", "updateAccountData",
+				"updateTheatersData", "updateShowtimesData", "exit", "main" };
 		CommandManager commandManager = new CommandManager(commandList);
 		String command = "";
 		printWelcomeMessage();
@@ -83,7 +83,7 @@ public class user_interface {
 				+ "    / newShowtime    / viewTheater    / updateTheatersData /        /       " + "\n"
 				+ "   / deleteAccount  / viewShowtime   /updateShowtimesData /        /        " + "\n"
 				+ "  / deleteTheater  / purchaseTicket /                    /        /         " + "\n"
-				+ " / deleteShowtime /                /                    /        /         " + "\n"
+				+ " / deleteShowtime /  addBalance    /                    /        /         " + "\n"
 				+ "/________________/________________/____________________/________/          " + "\n"
 				+ "                                                                                                         ";
 		System.out.println(str);

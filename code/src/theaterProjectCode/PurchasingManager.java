@@ -48,10 +48,11 @@ public class PurchasingManager {
 	/*
 	 * methods
 	 */
+
 	public boolean purchaseTicket() {
 		if (accountManager.isLoggedIn()) {
 			System.out.printf("You are logged in as user: %s \n", accountManager.getLoggedInAccount().getUsername());
-			System.out.println("Would you like to purchase a ticket to this account? yes/no");
+			System.out.println("Would you like to purchase a ticket to this account?");
 			String input = showtimeManager.getYesNo();
 			if (input.equals("no")) {
 				System.out.println("Logging out...");
@@ -72,6 +73,15 @@ public class PurchasingManager {
 					System.out.println("No unreserved seats available! Exiting....");
 					return false;
 				}
+
+				if (showtimeSelected.getPrice() > accountManager.getLoggedInAccount().getBalance()) {
+					System.out.println("Insufficient balance to purchase ticket!");
+					System.out.printf("Ticket price is $%s", Double.toString(showtimeSelected.getPrice()));
+					System.out.println(
+							"\nIf you wish to continue to purchase the ticket, \nplease replenish your balance");
+					return false;
+				}
+
 				showtimeSelected.listUnreservedTheaters();
 				String theaterSelected = reader.nextLine();
 				do {
@@ -89,17 +99,20 @@ public class PurchasingManager {
 				System.out.println("Enter column number:");
 				int col = Integer.parseInt(reader.nextLine());
 				Seat seatSelected = new Seat(row, col);
-				// Generate ticket and add to account
+				// Generate ticket
 				Ticket ticket = new Ticket(showtimeSelected, seatSelected, showtimeSelected.getPrice(), datePurchased,
 						theaterSelected);
-				accountManager.getLoggedInAccount().addTicket(ticket);
 				// reserve seat in the theater
-				theaterManager.reserveSeat(row, col, theaterSelected, accountSelected);
+				if (!theaterManager.reserveSeat(row, col, theaterSelected, accountSelected)) {
+					return false;
+				}
 				// update account balance
+				accountManager.getLoggedInAccount().addTicket(ticket);
 				double currentBalance = accountManager.getLoggedInAccount().getBalance();
 				double price = showtimeSelected.getPrice();
 				accountManager.getLoggedInAccount().setBalance(currentBalance - price);
 				accountManager.exportAccounts(accountManager.getDatabaseFile());
+				theaterManager.exportTheaters(theaterManager.getFile());
 				return true;
 			}
 		} else {
@@ -146,11 +159,15 @@ public class PurchasingManager {
 						theaterSelected);
 				accountManager.getLoggedInAccount().addTicket(ticket);
 				// reserve seat in the theater
-				theaterManager.reserveSeat(row, col, theaterSelected, accountSelected);
+				if (!theaterManager.reserveSeat(row, col, theaterSelected, accountSelected)) {
+					return false;
+				}
 				// update account balance
 				double currentBalance = accountManager.getLoggedInAccount().getBalance();
 				double price = showtimeSelected.getPrice();
 				accountManager.getLoggedInAccount().setBalance(currentBalance - price);
+				accountManager.exportAccounts(accountManager.getDatabaseFile());
+				theaterManager.exportTheaters(theaterManager.getFile());
 				return true;
 			}
 		}
