@@ -100,6 +100,8 @@ public class ShowtimeManager {
 			}
 		}
 		showtimes.add(new Showtime(new Date().createDate(),name, showtimeTheaters, popularity, category, price, rating));
+		exportShowtimes(showtimes_data);
+		System.out.println("Showtime successfully added!");
 	}
 	/*
 	 * delete showtime
@@ -114,6 +116,7 @@ public class ShowtimeManager {
 		int showtimeSelected = this.getValidShowtimeID();
 		showtimes.remove(showtimeSelected);
 		System.out.println("Showtime deleted successfully.");
+		exportShowtimes(showtimes_data);
 		return true;
 	}
 	/*
