@@ -88,7 +88,7 @@ public class CommandManager {
 				}else {
 					if (accountManager.createAccount("employee")) {
 						System.out.println("Finished creating employee account.");
-						System.out.printf("Welcome to the Team: %s", accountManager.getLoggedInAccount().getUsername());
+						System.out.printf("Welcome to the Team: %s\n", accountManager.getLoggedInAccount().getUsername());
 					}else {
 						System.out.println("Account creation failed.");
 					}

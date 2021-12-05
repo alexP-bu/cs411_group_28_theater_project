@@ -141,7 +141,7 @@ public class Showtime implements Serializable{
 			return new Theater();
 		}else {
 			for(Theater theater : theaters) {
-				if(theater.getTheaterID().equals("ID")) {
+				if(theater.getTheaterID().equals(ID)) {
 					return theater;
 				}
 			}
