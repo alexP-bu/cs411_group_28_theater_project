@@ -145,7 +145,11 @@ public class CommandManager {
 			returning();
 			break;
 		case "newShowtime":
-			showtimeManager.createShowtime();
+			if(accountManager.getLoggedInAccount().getType().equals("employee")) {
+				showtimeManager.createShowtime();
+			} else {
+				System.out.println("Insufficient permissions! Please contact an employee.");
+			}
 			returning();
 			break;
 		case "viewShowtime":
@@ -153,8 +157,12 @@ public class CommandManager {
 			returning();
 			break;
 		case "deleteShowtime":
-			if(!showtimeManager.deleteShowtime()) {
-				System.out.println("Error deleting showtime!");
+			if(accountManager.getLoggedInAccount().getType().equals("employee")) {
+				if(!showtimeManager.deleteShowtime()) {
+					System.out.println("Error deleting showtime!");
+				}
+			}else {
+				System.out.println("Insufficient permissions! Please contact an employee.");
 			}
 			returning();
 			break;
