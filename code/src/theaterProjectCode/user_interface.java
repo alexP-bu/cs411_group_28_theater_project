@@ -68,7 +68,7 @@ public class user_interface {
 	public static void printInstructions() {
 		System.out.println();
 		System.out.println("Commands currently available:");
-		String str = "      ________________________________________________________________   " + "\n"
+		String str = "         ________________________________________________________________   " + "\n"
 				+ "        / newAccount     / listAccounts   / clearAccountsData  / login  /   " + "\n"
 				+ "       / newAdmin       / listTheaters   / clearTheatersData  / logout /    " + "\n"
 				+ "      / newEmployee    / listShowtimes  / clearShowtimesData / exit   /     " + "\n"
