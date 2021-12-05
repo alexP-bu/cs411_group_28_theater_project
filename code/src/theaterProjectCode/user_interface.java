@@ -15,7 +15,7 @@ public class user_interface {
 				"newShowtime", "deleteAccount", "deleteTheater", "deleteShowtime", "listAccounts", "listTheaters",
 				"listShowtimes", "viewAccount", "viewTheater", "viewShowtime", "purchaseTicket", "clearAccountsData",
 				"clearTheatersData", "clearShowtimesData", "updateAccountData", "updateTheatersData",
-				"updateShowtimesData", "exit", "main" };
+				"updateShowtimesData", "exit", "main","addBalance" };
 		//init command manager
 		CommandManager commandManager = new CommandManager(commandList);
 		String command = "";
@@ -76,7 +76,7 @@ public class user_interface {
 				+ "    / newShowtime    / viewTheater    / updateTheatersData /        /       " + "\n"
 				+ "   / deleteAccount  / viewShowtime   /updateShowtimesData /        /        " + "\n"
 				+ "  / deleteTheater  / purchaseTicket /                    /        /         " + "\n"
-				+ " / deleteShowtime /                /                    /        /         " + "\n"
+				+ " / deleteShowtime / addBalance     /                    /        /         " + "\n"
 				+ "/________________/________________/____________________/________/          " + "\n"
 				+ "                                                                                                         ";
 		System.out.println(str);
