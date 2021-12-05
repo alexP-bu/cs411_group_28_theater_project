@@ -109,14 +109,21 @@ public class CommandManager {
 			break;
 		case "newAdmin":
 			if (accountManager.createAccount("administrator")) {
-				break;
+				System.out.println("ADMIN ACCOUNT CREATED");
+				System.out.printf("ACCESS GRANTED TO %s", accountManager.getLoggedInAccount().getUsername());
 			} else {
 				System.out.println("Account creation failed.");
-				break;
+				System.out.println("Please enter command \"newAccount\" for a standard customer account");
 			}
+			break;
 		case "newEmployee":
 			if (accountManager.createAccount("employee")) {
 				System.out.println("Finished creating employee account.");
+				System.out.printf("Welcome to the Team: %s", accountManager.getLoggedInAccount().getUsername());
+			} else {
+				System.out.println("Account creation failed.");
+				System.out.println("Please enter command \"newAccount\" for a standard customer account");
+				System.out.println("Otherwise, please contact your immediate Supervisor for the ACCESS CODE");
 			}
 			break;
 		case "deleteAccount":
@@ -210,7 +217,7 @@ public class CommandManager {
 			break;
 		case "updateShowtimesData":
 			try {
-			showtimeManager.importShowtimes(showtimeManager.getFile());
+				showtimeManager.importShowtimes(showtimeManager.getFile());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

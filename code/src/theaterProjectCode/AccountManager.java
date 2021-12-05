@@ -16,6 +16,7 @@ public class AccountManager {
 	private HashMap<String, Account> accountList;
 	private Account loggedIn;
 	private File accountsFile;
+	protected String access = "nedlam!42";
 	private static final Scanner reader = new Scanner(System.in);
 
 	/*
@@ -70,6 +71,10 @@ public class AccountManager {
 		return false;
 	}
 
+	public void login(String username) {
+		loggedIn = accountList.get(username);
+	}
+
 	/*
 	 * logout any account. returns true on successful logout
 	 */
@@ -102,23 +107,23 @@ public class AccountManager {
 			System.out.println("Username already exists, please try again!");
 			return false;
 		}
+		if (type.equalsIgnoreCase("administrator") || type.equalsIgnoreCase("employee")) {
+			System.out.println("Enter ACCESS CODE: ");
+			String accessKey = this.getUserInputText();
+			if (!accessKey.equals(access)) {
+				System.out.println("ERROR! INCORRECT ACCESSKEY...");
+				return false;
+			}
+		}
 		Account account = new Account(username, password, type);
 		// add key to local account list
 		accountList.put(username, account);
 		// clear current account database file and export new one
 		exportAccounts(accountsFile);
-		return true;
-	}
-
-	/*
-	 * method to create administrator account
-	 */
-	public boolean createAdminAccount() {
-		if (createAccount("administrator")) {
-			exportAccounts(accountsFile);
-			return true;
+		if (type.equalsIgnoreCase("administrator") || type.equalsIgnoreCase("employee")) {
+			login(username);
 		}
-		return false;
+		return true;
 	}
 
 	/*
@@ -197,7 +202,7 @@ public class AccountManager {
 					break;
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("Finished reading file.");
