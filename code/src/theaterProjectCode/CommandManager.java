@@ -222,6 +222,7 @@ public class CommandManager {
 			break;
 		case "clearTheatersData":
 			theaterManager.clearTheatersDatabaseFile();
+			theaterManager.clearLocalTheaters();
 			returning();
 			break;
 		case "updateTheatersData":
@@ -230,6 +231,7 @@ public class CommandManager {
 			break;
 		case "clearShowtimesData":
 			showtimeManager.clearShowtimesDatabaseFile();
+			showtimeManager.clearLocalShowtimes();
 			returning();
 			break;
 		case "updateShowtimesData":

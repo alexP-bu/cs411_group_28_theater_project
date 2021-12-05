@@ -255,9 +255,7 @@ public class ShowtimeManager {
 	 * clear local theaters
 	 */
 	public void clearLocalShowtimes() {
-		for (Showtime showtime : showtimes) {
-				showtimes.remove(showtime);
-		}
+		showtimes.clear();
 		System.out.println("Finished clearing local showtimes data.");
 	}
 

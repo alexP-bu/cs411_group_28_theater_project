@@ -283,9 +283,7 @@ public class TheaterManager implements Serializable {
 	 * clear local theaters
 	 */
 	public void clearLocalTheaters() {
-		for (Map.Entry<String, Theater> entry : theaters.entrySet()) {
-				theaters.remove(entry.getKey());
-		}
+		theaters.clear();
 		System.out.println("Finished clearing local theater data.");
 	}
 
