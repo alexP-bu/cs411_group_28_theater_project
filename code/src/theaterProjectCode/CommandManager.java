@@ -12,13 +12,18 @@ public class CommandManager {
 	/*
 	 * constructors
 	 */
+	/*
+	 * default blank command manager
+	 */
 	public CommandManager() {
 		commandList = new HashSet<String>();
 		accountManager = new AccountManager();
 		theaterManager = new TheaterManager();
 		showtimeManager = new ShowtimeManager(theaterManager);
 	}
-
+	/*
+	 * initialize commandManager with a list of commands
+	 */
 	public CommandManager(String[] commands) {
 		commandList = new HashSet<String>();
 		for (String command : commands) {
@@ -28,46 +33,8 @@ public class CommandManager {
 		theaterManager = new TheaterManager();
 		showtimeManager = new ShowtimeManager(theaterManager);
 	}
-
 	/*
-	 * validates if a command is valid for this system
-	 */
-	public boolean validateCommand(String keyword) {
-		if (commandList.contains(keyword)) {
-			return true;
-		}
-		return false;
-	}
-
-	/*
-	 * print list of valid commands
-	 */
-	public void listCommands() {
-		System.out.println(commandList.toString());
-	}
-
-	/*
-	 * delete command from system
-	 */
-	public void deleteCommand(String keyword) {
-		commandList.remove(keyword);
-	}
-
-	/*
-	 * add a command to system
-	 */
-	public void addCommand(String keyword) {
-		commandList.add(keyword);
-	}
-
-	public void returning() {
-		System.out.println("Returning to main menu...");
-		user_interface.wait(1);
-		runCommand("main");
-	}
-
-	/*
-	 * run main run case
+	 * method to run commands
 	 */
 	public void runCommand(String command) {
 		switch (command) {
@@ -103,7 +70,7 @@ public class CommandManager {
 				System.out.println("Please login to access your account");
 				System.out.println("...");
 			} else {
-				System.out.println("Error creating your account. Please contact an employee.");
+				System.out.println("Error creating your account.");
 				returning();
 			}
 			break;
@@ -216,5 +183,22 @@ public class CommandManager {
 			}
 			break;
 		}
+	}
+	/*
+	 * validates if a command is valid for this system
+	 */
+	public boolean validateCommand(String keyword) {
+		if (commandList.contains(keyword)) {
+			return true;
+		}
+		return false;
+	}
+	/*
+	 * return to main menu
+	 */
+	public void returning() {
+		System.out.println("Returning to main menu...");
+		user_interface.wait(1);
+		runCommand("main");
 	}
 }

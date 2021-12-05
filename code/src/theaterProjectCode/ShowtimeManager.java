@@ -226,7 +226,7 @@ public class ShowtimeManager {
 			// TODO: handle exception
 			System.out.println("Finished reading file.");
 		}
-		System.out.println("Imported theaters database file.");
+		System.out.println("Imported showtimes database file.");
 	}
 
 	/*
