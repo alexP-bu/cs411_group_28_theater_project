@@ -93,8 +93,9 @@ public class PurchasingManager {
 				double currentBalance = accountManager.getLoggedInAccount().getBalance();
 				double price = showtimeSelected.getPrice();
 				accountManager.getLoggedInAccount().setBalance(currentBalance - price);
-				//update showtime popularity
+				//update showtime popularity and add rewards
 				showtimeSelected.setPopularity(showtimeSelected.getPopularity() + 1);
+				accountSelected.setRewardsPoints(accountSelected.getRewardsPoints() + 10);
 				return true;
 			}
 		}else {
@@ -142,8 +143,9 @@ public class PurchasingManager {
 				double currentBalance = accountManager.getLoggedInAccount().getBalance();
 				double price = showtimeSelected.getPrice();
 				accountManager.getLoggedInAccount().setBalance(currentBalance - price);
-				//update showtime popularity
+				//update showtime popularity and add reward points to account
 				showtimeSelected.setPopularity(showtimeSelected.getPopularity() + 1);
+				accountSelected.setRewardsPoints(accountSelected.getRewardsPoints() + 10);
 				return true;
 			}
 		}
