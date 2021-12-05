@@ -123,16 +123,24 @@ public class CommandManager {
 			returning();
 			break;
 		case "newTheater":
-			theaterManager.createTheater();
+			if(accountManager.getLoggedInAccount().getType().equals("employee")) {
+				theaterManager.createTheater();
+			}else {
+				System.out.println("Insufficient permissions! Please contact an employee.");
+			}
 			returning();
 			break;
 		case "deleteTheater":
-			if (theaterManager.deleteTheater()) {
-				System.out.println("New theater list:");
-				theaterManager.listTheaters();
-			} else {
-				System.out.println(
+			if(accountManager.getLoggedInAccount().getType().equals("employee")) {
+				if (theaterManager.deleteTheater()) {
+					System.out.println("New theater list:");
+					theaterManager.listTheaters();
+				} else {
+					System.out.println(
 						"Failed to delete theater. No theaters in system to delete, or invalid theater entered.");
+				}
+			}else {
+				System.out.println("Insufficient permissions! Please contact an employee.");
 			}
 			returning();
 			break;
