@@ -79,14 +79,18 @@ public class CommandManager {
 			returning();
 			break;
 		case "newEmployee":
-			if(!accountManager.getLoggedInAccount().getType().equals("administrator")) {
-				System.out.println("Invalid permissions! Please contact system administrator!");
-			}else {
-				if (accountManager.createAccount("employee")) {
-					System.out.println("Finished creating employee account.");
+			if(accountManager.isLoggedIn()) {
+				if(!accountManager.getLoggedInAccount().getType().equals("administrator")) {
+					System.out.println("Invalid permissions! Please contact system administrator!");
 				}else {
-					System.out.println("Account creation failed.");
+					if (accountManager.createAccount("employee")) {
+						System.out.println("Finished creating employee account.");
+					}else {
+						System.out.println("Account creation failed.");
+					}
 				}
+			}else {
+				System.out.println("Please log in!");
 			}
 			returning();
 			break;
@@ -123,24 +127,32 @@ public class CommandManager {
 			returning();
 			break;
 		case "newTheater":
-			if(accountManager.getLoggedInAccount().getType().equals("employee")) {
-				theaterManager.createTheater();
+			if(accountManager.isLoggedIn()) {
+				if(accountManager.getLoggedInAccount().getType().equals("employee")) {
+					theaterManager.createTheater();
+				}else {
+					System.out.println("Insufficient permissions! Please contact an employee.");
+				}
 			}else {
-				System.out.println("Insufficient permissions! Please contact an employee.");
+				System.out.println("Please log in!");
 			}
 			returning();
 			break;
 		case "deleteTheater":
-			if(accountManager.getLoggedInAccount().getType().equals("employee")) {
-				if (theaterManager.deleteTheater()) {
-					System.out.println("New theater list:");
-					theaterManager.listTheaters();
-				} else {
-					System.out.println(
-						"Failed to delete theater. No theaters in system to delete, or invalid theater entered.");
+			if(accountManager.isLoggedIn()) {
+				if(accountManager.getLoggedInAccount().getType().equals("employee")) {
+					if (theaterManager.deleteTheater()) {
+						System.out.println("New theater list:");
+						theaterManager.listTheaters();
+					} else {
+						System.out.println(
+								"Failed to delete theater. No theaters in system to delete, or invalid theater entered.");
+					}
+				}else {
+					System.out.println("Insufficient permissions! Please contact an employee.");
 				}
 			}else {
-				System.out.println("Insufficient permissions! Please contact an employee.");
+				System.out.println("Please log in!");
 			}
 			returning();
 			break;
@@ -153,10 +165,14 @@ public class CommandManager {
 			returning();
 			break;
 		case "newShowtime":
-			if(accountManager.getLoggedInAccount().getType().equals("employee")) {
-				showtimeManager.createShowtime();
-			} else {
-				System.out.println("Insufficient permissions! Please contact an employee.");
+			if(accountManager.isLoggedIn()) {
+				if(accountManager.getLoggedInAccount().getType().equals("employee")) {
+					showtimeManager.createShowtime();
+				} else {
+					System.out.println("Insufficient permissions! Please contact an employee.");
+				}
+			}else {
+				System.out.println("Please log in!");
 			}
 			returning();
 			break;
@@ -165,12 +181,16 @@ public class CommandManager {
 			returning();
 			break;
 		case "deleteShowtime":
-			if(accountManager.getLoggedInAccount().getType().equals("employee")) {
-				if(!showtimeManager.deleteShowtime()) {
-					System.out.println("Error deleting showtime!");
+			if(accountManager.isLoggedIn()) {
+				if(accountManager.getLoggedInAccount().getType().equals("employee")) {
+					if(!showtimeManager.deleteShowtime()) {
+						System.out.println("Error deleting showtime!");
+					}
+				}else {
+					System.out.println("Insufficient permissions! Please contact an employee.");
 				}
 			}else {
-				System.out.println("Insufficient permissions! Please contact an employee.");
+				System.out.println("Please log in!");
 			}
 			returning();
 			break;
